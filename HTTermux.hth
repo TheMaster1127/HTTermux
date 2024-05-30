@@ -1,0 +1,83 @@
+; HTTermux
+Gui, Font, s18
+Gui, Show, +websiteMode w%A_ScreenWidth% h%A_ScreenHeight%
+if (A_ScreenWidth > A_ScreenHeight)
+{
+Loop
+{
+scale := (100000 - 1900) / A_Index
+
+boardW := 1900 / scale
+boardH := 700 / scale
+
+if (boardW >= A_ScreenWidth - 50)
+{
+break
+}
+
+if (boardH >= A_ScreenHeight - 50)
+{
+break
+}
+}
+
+}
+else
+{
+Loop
+{
+scale := (100000 - 700) / A_Index
+
+boardW := 350 / scale
+boardH := 700 / scale
+
+if (boardW >= A_ScreenWidth - 50)
+{
+break
+}
+
+if (boardH >= A_ScreenHeight - 50)
+{
+break
+}
+}
+
+}
+startFile := "HTProjects/main.htpy"
+getDataFromEndpoint("mkdir -p HTProjects", "/runcommand")
+
+
+Gui 2: Show, h%boardH% W%boardW%
+
+IDEh := boardH - 20 - 50
+IDEw := boardW - 20
+button1y := boardH - 50
+Gui 2: Add, IDE, x10 y10 w%IDEw% h%IDEh% vIDE1 s13 gIDE1 lautohotkey
+Gui 2: Add, Button, x10 y%button1y% w100 h40 gSave, Save
+Gui 2: Add, Button, x125 y%button1y% w100 h40 gOpen, Open
+Gui 2: Add, Button, x240 y%button1y% w100 h40 gChoose, Choose
+return
+
+IDE1:
+DataInIDE1 := A_GuiControl
+Return
+
+Save:
+getDataFromEndpoint(DataInIDE1, "/Save")
+MsgBox, Saved
+Return
+
+Open:
+fileText := getDataFromEndpoint(startFile, "/Open")
+GuiControl 2: TextIDE, IDE1, %fileText%
+Return
+
+Choose:
+MsgBox, not implemennted yet i went to sleep
+Return
+
+; [ -f ~/test.htpy ] && echo "yes" || echo "no"
+; [ -d ~/HTProjects ] && echo "yes" || echo "no"
+; find ~/ -maxdepth 1 -type f -exec basename {} \; | grep -v '^\.'
+; mkdir -p ~/HTProjects
+

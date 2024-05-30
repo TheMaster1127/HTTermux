@@ -1,0 +1,21 @@
+
+
+endpoint, fileToOpen, Open
+{
+FileRead, dataFormText, fileToOpen
+return dataFormText
+}
+
+
+endpoint, dataToSave, Save
+{
+FileAppend, dataToSave, fileToOpen
+return "saved"
+}
+
+
+endpoint, command, runcommand
+{
+var1234565432345654out := RunCMD(command)
+return "done"
+}
