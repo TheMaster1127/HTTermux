@@ -49,25 +49,24 @@ getDataFromEndpoint("mkdir -p HTProjects", "/runcommand")
 
 Gui 2: Show, h%boardH% W%boardW%
 
-IDEh := boardH - 20 - 50
+IDEh := boardH - 20 - 85
 IDEw := boardW - 20
 button1y := boardH - 50
 if (isMobileDevice())
 {
-Gui 2: Add, IDE, x10 y10 w%IDEw% h%IDEh% vIDE1 s13 gIDE1 lautohotkey
+Gui 2: Add, IDE, x10 y25 w%IDEw% h%IDEh% vIDE1 s13 gIDE1 lautohotkey
 }
 else
 {
-Gui 2: Add, IDE, x10 y10 w%IDEw% h%IDEh% vIDE1 s18 gIDE1 lautohotkey
+Gui 2: Add, IDE, x10 y25 w%IDEw% h%IDEh% vIDE1 s18 gIDE1 lautohotkey
 }
-
+Gui 2: Add, Text, x10 y0 w160 h20 vFileNameDisplayText, main.htpy
 Gui 2: Add, Button, x10 y%button1y% w100 h40 vSaveButton gSave, Save
 GuiControl 2: Disable, SaveButton
-Gui 2: Add, Button, x125 y%button1y% w100 h40 gOpen, Open
+Gui 2: Add, Button, x125 y%button1y% w100 h40 gOpenMain, OpenMain
 Gui 2: Add, Button, x240 y%button1y% w100 h40 gChoose, Choose
-fileText := getDataFromEndpoint(startFile, "/Open")
-GuiControl 2: TextIDE, IDE1, %fileText%
-GuiControl 2: Enable, SaveButton
+
+gosub, OpenMain
 return
 
 IDE1:
@@ -76,11 +75,16 @@ Return
 
 Save:
 getDataFromEndpoint(DataInIDE1, "/Save")
-MsgBox, Saved
+MsgBox, Saved in %startFileDisplayText%
 Return
 
-Open:
+OpenMain:
 fileText := getDataFromEndpoint(startFile, "/Open")
+Loop, Parse, startFile, "/"
+{
+startFileDisplayText := A_LoopField
+}
+GuiControl 2: Text, FileNameDisplayText, %startFileDisplayText%
 GuiControl 2: TextIDE, IDE1, %fileText%
 GuiControl 2: Enable, SaveButton
 Return
@@ -92,5 +96,9 @@ newFileOpen := "HTProjects/" . newFileOpen
 fileText := getDataFromEndpoint(newFileOpen, "/Open")
 GuiControl 2: TextIDE, IDE1, %fileText%
 GuiControl 2: Enable, SaveButton
+Loop, Parse, newFileOpen, "/"
+{
+startFileDisplayText := A_LoopField
+}
+GuiControl 2: Text, FileNameDisplayText, %startFileDisplayText%
 Return
-

@@ -640,6 +640,7 @@ let variables = {
   newFileOpen: null,
   scale: null,
   startFile: null,
+  startFileDisplayText: null,
 };
 
 let Gui1 = {};
@@ -738,7 +739,7 @@ Gui2.style.top = (window.innerHeight - parseInt(Gui2.style.height)) / 2 + "px";
 document.body.appendChild(Gui2) // Append the GUI window to the body
 Gui2.style.display = "block";
 
-variables.IDEh =  variables.boardH - 20 - 50;
+variables.IDEh =  variables.boardH - 20 - 85;
 
 variables.IDEw =  variables.boardW - 20;
 
@@ -747,13 +748,25 @@ variables.button1y =  variables.boardH - 50;
 if ( await isMobileDevice ( ) )
 {
 
-AddIDE(Gui2, 10, 10, variables.IDEw, variables.IDEh, "Gui2IDE1", 13, "autohotkey", IDE1,    null    )
+AddIDE(Gui2, 10, 25, variables.IDEw, variables.IDEh, "Gui2IDE1", 13, "autohotkey", IDE1,    null    )
 }
 else
 {
 
-AddIDE(Gui2, 10, 10, variables.IDEw, variables.IDEh, "Gui2IDE1", 18, "autohotkey", IDE1,    null    )
+AddIDE(Gui2, 10, 25, variables.IDEw, variables.IDEh, "Gui2IDE1", 18, "autohotkey", IDE1,    null    )
 }
+
+Gui2FileNameDisplayText = document.createElement("div")
+Gui2FileNameDisplayText.id = "Gui2" + "FileNameDisplayText"; // Set ID for referencing
+Gui2FileNameDisplayText.textContent = "main.htpy";
+Gui2FileNameDisplayText.style.color = "#black"
+Gui2FileNameDisplayText.style.fontSize = "18px"; // Set font size
+Gui2FileNameDisplayText.style.position = "absolute"; // Set position to absolute
+Gui2FileNameDisplayText.style.left = "10px"; // Set initial x position
+Gui2FileNameDisplayText.style.top = "0px"; // Set initial y position
+Gui2FileNameDisplayText.style.width = "160px"; // Set width
+Gui2FileNameDisplayText.style.height = "20px"; // Set height
+Gui2.appendChild(Gui2FileNameDisplayText)
 
 Gui2SaveButton = document.createElement("button")
 Gui2SaveButton.id = "Gui2" + "SaveButton"; // Set ID for referencing
@@ -781,7 +794,7 @@ GuiControl("disable", "Gui2SaveButton")
 
 Gui2Button2 = document.createElement("button")
 Gui2Button2.id = "Gui2" + "Button" + "2"; // Set ID for referencing
-Gui2Button2.textContent = "Open";
+Gui2Button2.textContent = "OpenMain";
 Gui2Button2.style.fontSize = "18px"; // Set font size
 Gui2Button2.style.position = "absolute"; // Set position to absolute
 Gui2Button2.style.left = "125px"; // Set initial x position
@@ -797,7 +810,7 @@ Gui2Button2.style.color = "";
 Gui2Button2.style.fontFamily = ", sans-serif"; // Specify your desired font here
 Gui2Button2.onclick = function (event) {
 A_GuiControl = event.target.textContent
-Open(A_GuiControl)
+OpenMain(A_GuiControl)
 };
 Gui2.appendChild(Gui2Button2)
 
@@ -823,10 +836,7 @@ Choose(A_GuiControl)
 };
 Gui2.appendChild(Gui2Button3)
 
-variables.fileText =  await getDataFromEndpoint ( variables.startFile, "/Open" )
-
-GuiControl("textide", "Gui2IDE1", variables.fileText)
-GuiControl("enable", "Gui2SaveButton")
+await OpenMain()
 return
 
 async function IDE1(A_GuiControl)
@@ -838,13 +848,23 @@ variables.DataInIDE1 =  A_GuiControl;
 async function Save(A_GuiControl)
 {
 await getDataFromEndpoint(variables.DataInIDE1, "/Save")
-await showCustomMessageBox({}," ", "Saved ", 0, 0)
+await showCustomMessageBox({}," ", "Saved in " + variables.startFileDisplayText + " ", 0, 0)
 }
 
-async function Open(A_GuiControl)
+async function OpenMain(A_GuiControl)
 {
 variables.fileText =  await getDataFromEndpoint ( variables.startFile, "/Open" )
 
+variables.characters3 = variables.startFile.split(/["/"]/)
+variables.charLength3 = variables.characters3.length
+
+for (/* Loop parse */ variables.A_Index3 = 1; variables.A_Index3 <= variables.charLength3; variables.A_Index3++) {
+variables.A_LoopField3 = variables.characters3[variables.A_Index3 - 1]; // Using array notation to access characters
+
+variables.startFileDisplayText =  variables.A_LoopField3;
+
+}
+GuiControl("text", "Gui2FileNameDisplayText", variables.startFileDisplayText)
 GuiControl("textide", "Gui2IDE1", variables.fileText)
 GuiControl("enable", "Gui2SaveButton")
 }
@@ -859,6 +879,17 @@ variables.fileText =  await getDataFromEndpoint ( variables.newFileOpen, "/Open"
 
 GuiControl("textide", "Gui2IDE1", variables.fileText)
 GuiControl("enable", "Gui2SaveButton")
+
+variables.characters4 = variables.newFileOpen.split(/["/"]/)
+variables.charLength4 = variables.characters4.length
+
+for (/* Loop parse */ variables.A_Index4 = 1; variables.A_Index4 <= variables.charLength4; variables.A_Index4++) {
+variables.A_LoopField4 = variables.characters4[variables.A_Index4 - 1]; // Using array notation to access characters
+
+variables.startFileDisplayText =  variables.A_LoopField4;
+
+}
+GuiControl("text", "Gui2FileNameDisplayText", variables.startFileDisplayText)
 }
 
  }
