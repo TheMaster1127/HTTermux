@@ -823,6 +823,10 @@ Choose(A_GuiControl)
 };
 Gui2.appendChild(Gui2Button3)
 
+variables.fileText =  await getDataFromEndpoint ( variables.startFile, "/Open" )
+
+GuiControl("textide", "Gui2IDE1", variables.fileText)
+GuiControl("enable", "Gui2SaveButton")
 return
 
 async function IDE1(A_GuiControl)

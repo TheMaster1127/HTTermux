@@ -65,6 +65,9 @@ Gui 2: Add, Button, x10 y%button1y% w100 h40 vSaveButton gSave, Save
 GuiControl 2: Disable, SaveButton
 Gui 2: Add, Button, x125 y%button1y% w100 h40 gOpen, Open
 Gui 2: Add, Button, x240 y%button1y% w100 h40 gChoose, Choose
+fileText := getDataFromEndpoint(startFile, "/Open")
+GuiControl 2: TextIDE, IDE1, %fileText%
+GuiControl 2: Enable, SaveButton
 return
 
 IDE1:
