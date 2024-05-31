@@ -46,7 +46,7 @@ break
 startFile := "HTProjects/main.htpy"
 getDataFromEndpoint("mkdir -p HTProjects", "/runcommand")
 
-
+Gui 2: Font, fCourier
 Gui 2: Show, h%boardH% W%boardW%
 
 IDEh := boardH - 20 - 85
@@ -60,11 +60,16 @@ else
 {
 Gui 2: Add, IDE, x10 y25 w%IDEw% h%IDEh% vIDE1 s18 gIDE1 lautohotkey
 }
-Gui 2: Add, Text, x10 y0 w160 h20 vFileNameDisplayText, main.htpy
+
+
 Gui 2: Add, Button, x10 y%button1y% w100 h40 vSaveButton gSave, Save
 GuiControl 2: Disable, SaveButton
 Gui 2: Add, Button, x125 y%button1y% w100 h40 gOpenMain, OpenMain
 Gui 2: Add, Button, x240 y%button1y% w100 h40 gChoose, Choose
+
+Gui 2: Font, s13
+
+Gui 2: Add, Button, x10 y5 w100 h20 vFileNameDisplayText, main.htpy
 
 gosub, OpenMain
 return
