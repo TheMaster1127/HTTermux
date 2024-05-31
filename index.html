@@ -482,6 +482,7 @@
           enableSnippets: false,
           enableLiveAutocompletion: true,
           behavioursEnabled: false,
+          showPrintMargin: false,
         });
 
         langTools.setCompleters([]);
@@ -855,11 +856,6 @@ variables.fileText =  await getDataFromEndpoint ( variables.newFileOpen, "/Open"
 GuiControl("textide", "Gui2IDE1", variables.fileText)
 GuiControl("enable", "Gui2SaveButton")
 }
-
-// [ -f ~/test.htpy ] && echo posStartQuotes1" || echo posStartQuotes2"
-// [ -d ~/HTProjects ] && echo posStartQuotes1" || echo posStartQuotes2"
-// find ~/ -maxdepth 1 -type f -exec basename {} \; | grep -v '^\.'
-// mkdir -p ~/HTProjects
 
  }
 

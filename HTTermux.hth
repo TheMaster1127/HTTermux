@@ -91,8 +91,3 @@ GuiControl 2: TextIDE, IDE1, %fileText%
 GuiControl 2: Enable, SaveButton
 Return
 
-; [ -f ~/test.htpy ] && echo "yes" || echo "no"
-; [ -d ~/HTProjects ] && echo "yes" || echo "no"
-; find ~/ -maxdepth 1 -type f -exec basename {} \; | grep -v '^\.'
-; mkdir -p ~/HTProjects
-
