@@ -31,6 +31,19 @@ def FileAppend(content, path):
             file.write(content)
     except Exception as e:
         raise RuntimeError(f"Error: Could not open the file for appending. {e}")
+import os
+def FileDelete(path):
+    # Check if the path is absolute
+    if not os.path.isabs(path):
+        path = os.path.join(os.getcwd(), path)
+    try:
+        if os.path.exists(path):
+            os.remove(path)
+            print("File successfully deleted.")
+        else:
+            raise RuntimeError("Error: File does not exist.")
+    except Exception as e:
+        raise RuntimeError(f"Error: Failed to delete the file. {e}")
 import subprocess
 def RunCMD(command):
     """
@@ -58,6 +71,7 @@ def Open():
 @app.route('/Save', methods=['POST'])
 def Save():
     variables['dataToSave'] = request.get_json()
+    FileDelete(variables['fileToOpen'])
     FileAppend(variables['dataToSave'], variables['fileToOpen'])
     return "saved"
 @app.route('/runcommand', methods=['POST'])
