@@ -328,6 +328,10 @@
         return num;
       }
 
+      function isMobileDevice() {
+        return /Mobi|Android/i.test(navigator.userAgent);
+      }
+
       function GuiControl(action, id, param1, param2, param3, param4) {
         const element = document.getElementById(id);
         if (element) {
@@ -632,6 +636,7 @@ let variables = {
   fileText: null,
   IDEh: null,
   IDEw: null,
+  newFileOpen: null,
   scale: null,
   startFile: null,
 };
@@ -738,29 +743,40 @@ variables.IDEw =  variables.boardW - 20;
 
 variables.button1y =  variables.boardH - 50;
 
-AddIDE(Gui2, 10, 10, variables.IDEw, variables.IDEh, "Gui2IDE1", 13, "autohotkey", IDE1,    null    )
+if ( await isMobileDevice ( ) )
+{
 
-Gui2Button1 = document.createElement("button")
-Gui2Button1.id = "Gui2" + "Button" + "1"; // Set ID for referencing
-Gui2Button1.textContent = "Save";
-Gui2Button1.style.fontSize = "18px"; // Set font size
-Gui2Button1.style.position = "absolute"; // Set position to absolute
-Gui2Button1.style.left = "10px"; // Set initial x position
-Gui2Button1.style.top = "" + variables.button1y + "px"; // Set initial y position
-Gui2Button1.style.width = "100px"; // Set width
-Gui2Button1.style.height = "40px"; // Set height
-Gui2Button1.style.cursor = "pointer"; // Change cursor on hover
-Gui2Button1.style.border = "";
-Gui2Button1.style.background = "";
-Gui2Button1.style.backgroundColor = "";
-Gui2Button1.style.borderRadius = "";
-Gui2Button1.style.color = "";
-Gui2Button1.style.fontFamily = ", sans-serif"; // Specify your desired font here
-Gui2Button1.onclick = function (event) {
-A_GuiControl = event.target.textContent
+AddIDE(Gui2, 10, 10, variables.IDEw, variables.IDEh, "Gui2IDE1", 13, "autohotkey", IDE1,    null    )
+}
+else
+{
+
+AddIDE(Gui2, 10, 10, variables.IDEw, variables.IDEh, "Gui2IDE1", 18, "autohotkey", IDE1,    null    )
+}
+
+Gui2SaveButton = document.createElement("button")
+Gui2SaveButton.id = "Gui2" + "SaveButton"; // Set ID for referencing
+Gui2SaveButton.textContent = "Save";
+Gui2SaveButton.style.fontSize = "18px"; // Set font size
+Gui2SaveButton.style.position = "absolute"; // Set position to absolute
+Gui2SaveButton.style.left = "10px"; // Set initial x position
+Gui2SaveButton.style.top = "" + variables.button1y + "px"; // Set initial y position
+Gui2SaveButton.style.width = "100px"; // Set width
+Gui2SaveButton.style.height = "40px"; // Set height
+Gui2SaveButton.style.cursor = "pointer"; // Change cursor on hover
+Gui2SaveButton.style.border = "";
+Gui2SaveButton.style.background = "";
+Gui2SaveButton.style.backgroundColor = "";
+Gui2SaveButton.style.borderRadius = "";
+Gui2SaveButton.style.color = "";
+Gui2SaveButton.style.fontFamily = ", sans-serif"; // Specify your desired font here
+Gui2SaveButton.onclick = function (event) {
+A_GuiControl = event.target.id.replace(/^Gui\d*/, "")
 Save(A_GuiControl)
 };
-Gui2.appendChild(Gui2Button1)
+Gui2.appendChild(Gui2SaveButton)
+
+GuiControl("disable", "Gui2SaveButton")
 
 Gui2Button2 = document.createElement("button")
 Gui2Button2.id = "Gui2" + "Button" + "2"; // Set ID for referencing
@@ -825,11 +841,19 @@ async function Open(A_GuiControl)
 variables.fileText =  await getDataFromEndpoint ( variables.startFile, "/Open" )
 
 GuiControl("textide", "Gui2IDE1", variables.fileText)
+GuiControl("enable", "Gui2SaveButton")
 }
 
 async function Choose(A_GuiControl)
 {
-await showCustomMessageBox({}," ", "not implemennted yet i went to sleep ", 0, 0)
+variables.newFileOpen = prompt('Enter the name of the file')
+variables.newFileOpen =  "HTProjects/" + variables.newFileOpen;
+
+//MsgBox, % newFileOpen
+variables.fileText =  await getDataFromEndpoint ( variables.newFileOpen, "/Open" )
+
+GuiControl("textide", "Gui2IDE1", variables.fileText)
+GuiControl("enable", "Gui2SaveButton")
 }
 
 // [ -f ~/test.htpy ] && echo posStartQuotes1" || echo posStartQuotes2"

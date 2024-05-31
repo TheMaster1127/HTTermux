@@ -12,38 +12,39 @@ variables = {}
 
 import os
 def FileRead(path):
-    # Check if the path is absolute
+    # Ensure the path is absolute
     if not os.path.isabs(path):
         path = os.path.join(os.getcwd(), path)
     try:
         with open(path, 'r') as file:
             content = file.read()
         return content
-    except Exception as e:
-        raise RuntimeError(f"Error: Could not open the file. {e}")
+    except FileNotFoundError:
+        return ''
+    except Exception:
+        return None
 import os
 def FileAppend(content, path):
-    # Check if the path is absolute
+    # Ensure the path is absolute
     if not os.path.isabs(path):
         path = os.path.join(os.getcwd(), path)
+    # Ensure the directory exists
+    os.makedirs(os.path.dirname(path), exist_ok=True)
     try:
         with open(path, 'a') as file:
             file.write(content)
-    except Exception as e:
-        raise RuntimeError(f"Error: Could not open the file for appending. {e}")
+    except Exception:
+        pass
 import os
 def FileDelete(path):
-    # Check if the path is absolute
+    # Ensure the path is absolute
     if not os.path.isabs(path):
         path = os.path.join(os.getcwd(), path)
     try:
         if os.path.exists(path):
             os.remove(path)
-            print("File successfully deleted.")
-        else:
-            raise RuntimeError("Error: File does not exist.")
-    except Exception as e:
-        raise RuntimeError(f"Error: Failed to delete the file. {e}")
+    except Exception:
+        pass
 import subprocess
 def RunCMD(command):
     """
@@ -67,6 +68,8 @@ def RunCMD(command):
 def Open():
     variables['fileToOpen'] = request.get_json()
     variables['dataFormText'] = FileRead(variables['fileToOpen'])
+    if (variables['dataFormText'] == ""):
+        variables['dataFormText'] = "[newFile]"
     return variables['dataFormText']
 @app.route('/Save', methods=['POST'])
 def Save():
@@ -77,7 +80,7 @@ def Save():
 @app.route('/runcommand', methods=['POST'])
 def runcommand():
     variables['command'] = request.get_json()
-    variables['var1234565432345654out'] = RunCMD(variables['command'])
+    variables['nothing'] = RunCMD(variables['command'])
     return "done"
 
 

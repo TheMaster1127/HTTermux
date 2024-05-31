@@ -3,6 +3,10 @@
 endpoint, fileToOpen, Open
 {
 FileRead, dataFormText, fileToOpen
+if (dataFormText = "")
+{
+dataFormText := "[newFile]"
+}
 return dataFormText
 }
 
@@ -17,6 +21,6 @@ return "saved"
 
 endpoint, command, runcommand
 {
-var1234565432345654out := RunCMD(command)
+nothing := RunCMD(command)
 return "done"
 }
