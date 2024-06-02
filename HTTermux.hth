@@ -44,7 +44,7 @@ break
 
 }
 startFile := "HTProjects/main.htpy"
-getDataFromEndpoint("mkdir -p HTProjects", "/runcommand")
+getDataFromEndpoint("make the dir HTProjects if not made alredy", "/runcommand")
 
 Gui 2: Font, fCourier
 Gui 2: Show, h%boardH% W%boardW%
@@ -69,7 +69,7 @@ Gui 2: Add, Button, x240 y%button1y% w100 h40 gChoose, Choose
 
 Gui 2: Font, s13
 
-Gui 2: Add, Button, x10 y5 w100 h20 vFileNameDisplayText, main.htpy
+Gui 2: Add, Text, x10 y5 w100 h20 vFileNameDisplayText, main.htpy
 
 gosub, OpenMain
 return

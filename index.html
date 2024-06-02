@@ -29,6 +29,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.32.2/ace.js" integrity="sha512-JLIRlxWh96sND3uUgI2RVHZJpgkWHg3+xoUY8XkgTPKpqRaqdk7zD/ck/XHXFSMW84o6GrP67dlqN3b98NB/yA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/ext-language_tools.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
+    
+
   </head>
   <body>
     <script>
@@ -432,6 +434,10 @@
         let Completer = {
           getCompletions: function (editor, session, pos, prefix, callback) {
 
+            if (prefix.startsWith("`"))
+            {
+              return
+              }
             let prefixLower = prefix.toLowerCase();
             let filteredTables = hth.filter(function (table) {
               return table.name.toLowerCase().startsWith(prefixLower);
@@ -717,7 +723,7 @@ break
 }
 variables.startFile =  "HTProjects/main.htpy";
 
-await getDataFromEndpoint("mkdir -p HTProjects", "/runcommand")
+await getDataFromEndpoint("make the dir HTProjects if not made alredy", "/runcommand")
 
 Gui2.style.position = "absolute";
 Gui2.style.width = "" + variables.boardW + "px"; // Set the width
@@ -824,22 +830,16 @@ Choose(A_GuiControl)
 };
 Gui2.appendChild(Gui2Button3)
 
-Gui2FileNameDisplayText = document.createElement("button")
+Gui2FileNameDisplayText = document.createElement("div")
 Gui2FileNameDisplayText.id = "Gui2" + "FileNameDisplayText"; // Set ID for referencing
 Gui2FileNameDisplayText.textContent = "main.htpy";
+Gui2FileNameDisplayText.style.color = "#black"
 Gui2FileNameDisplayText.style.fontSize = "13px"; // Set font size
 Gui2FileNameDisplayText.style.position = "absolute"; // Set position to absolute
 Gui2FileNameDisplayText.style.left = "10px"; // Set initial x position
 Gui2FileNameDisplayText.style.top = "5px"; // Set initial y position
 Gui2FileNameDisplayText.style.width = "100px"; // Set width
 Gui2FileNameDisplayText.style.height = "20px"; // Set height
-Gui2FileNameDisplayText.style.border = "";
-Gui2FileNameDisplayText.style.background = "";
-Gui2FileNameDisplayText.style.backgroundColor = "";
-Gui2FileNameDisplayText.style.borderRadius = "";
-Gui2FileNameDisplayText.style.color = "";
-Gui2FileNameDisplayText.style.fontFamily = ", sans-serif"; // Specify your desired font here
-Gui2FileNameDisplayText.style.cursor = "pointer"; // Change cursor on hover
 Gui2.appendChild(Gui2FileNameDisplayText)
 
 await OpenMain()

@@ -21,6 +21,10 @@ return "saved"
 
 endpoint, command, runcommand
 {
-nothing := RunCMD(command)
+if (command = "make the dir HTProjects if not made alredy")
+{
+nothing := RunCMD("mkdir -p HTProjects")
 return "done"
+}
+return "false"
 }
