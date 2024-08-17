@@ -1,109 +1,83 @@
 ; HTTermux
 Gui, Font, s18
 Gui, Show, +websiteMode w%A_ScreenWidth% h%A_ScreenHeight%
-if (A_ScreenWidth > A_ScreenHeight)
-{
-Loop
-{
-scale := (100000 - 1900) / A_Index
 
-boardW := 1900 / scale
-boardH := 700 / scale
+boardW := A_ScreenWidth - 20
+boardH := A_ScreenHeight - 20
 
-if (boardW >= A_ScreenWidth - 50)
-{
-break
-}
-
-if (boardH >= A_ScreenHeight - 50)
-{
-break
-}
-}
-
-}
-else
-{
-Loop
-{
-scale := (100000 - 700) / A_Index
-
-boardW := 350 / scale
-boardH := 700 / scale
-
-if (boardW >= A_ScreenWidth - 50)
-{
-break
-}
-
-if (boardH >= A_ScreenHeight - 50)
-{
-break
-}
-}
-
-}
-startFile := "HTProjects/main.htpy"
-getDataFromEndpoint("make the dir HTProjects if not made alredy", "/runcommand")
-
-Gui 2: Font, fCourier
+ideText := ""
+textFromTheTerminalImput := ""
 Gui 2: Show, h%boardH% W%boardW%
 
-IDEh := boardH - 20 - 85
-IDEw := boardW - 20
-button1y := boardH - 50
 if (isMobileDevice())
 {
-Gui 2: Add, IDE, x10 y25 w%IDEw% h%IDEh% vIDE1 s13 gIDE1 lautohotkey
+Gui, Font, s13
 }
-else
+
+IDEh := boardH - 20 - 250
+IDEhIDE := boardH - 20 - 250 - 50
+IDEw := boardW - 20
+Gui 2: Add, IDE, x10 y50 h%IDEhIDE% w%IDEw% gIDE1 vIDEtext lautohotkey
+if (isMobileDevice())
 {
-Gui 2: Add, IDE, x10 y25 w%IDEw% h%IDEh% vIDE1 s18 gIDE1 lautohotkey
+Gui, Font, s15
 }
 
+Gui 2: Add, Button, x10 y10 h35 w60 gsaveButton, Save
 
-Gui 2: Add, Button, x10 y%button1y% w100 h40 vSaveButton gSave, Save
-GuiControl 2: Disable, SaveButton
-Gui 2: Add, Button, x125 y%button1y% w100 h40 gOpenMain, OpenMain
-Gui 2: Add, Button, x240 y%button1y% w100 h40 gChoose, Choose
+displayPathW := boardW - 105
+Gui 2: Add, Text, x80 y10 h35 w%displayPathW% vdisplayPath, displayPath/displayPathW.somting
 
-Gui 2: Font, s13
+buttonAccess1X := 10
+buttonAccess1Y := IDEh + 20
+buttonAccess2X := 130
+buttonAccess2Y := IDEh + 20
+buttonAccess3X := 250
+buttonAccess3Y := IDEh + 20
 
-Gui 2: Add, Text, x10 y5 w100 h20 vFileNameDisplayText, main.htpy
 
-gosub, OpenMain
+Gui 2: Add, Button, x%buttonAccess1X% y%buttonAccess1Y% h40 w110 vquickButton1 gquickButton1, quickButton1
+Gui 2: Add, Button, x%buttonAccess2X% y%buttonAccess2Y% h40 w110 vquickButton2 gquickButton2, quickButton2
+Gui 2: Add, Button, x%buttonAccess3X% y%buttonAccess3Y% h40 w110 vquickButton3 gquickButton3, quickButton3
+
+terminalOutPutY := IDEh + 20 + 50
+Gui 2: Add, Edit, x10 y%terminalOutPutY% h140 w%IDEw% bg121212 cffffff vterminalOutPut
+GuiControl 2: Disable, terminalOutPut
+terminalInputY := IDEh + 20 + 50 + 150
+terminalInputW := IDEw - 50
+Gui 2: Font, s18
+Gui 2: Add, Edit, x10 y%terminalInputY% h40 w%terminalInputW% bg121212 cffffff gterminalInputInput vterminalInput
+
+terminalSend := terminalInputW + 20
+Gui 2: Font, s12
+Gui 2: Add, Button, x%terminalSend% y%terminalInputY% h45 w45 gterminalSend, Send
 return
 
 IDE1:
-DataInIDE1 := A_GuiControl
+ideText := A_GuiControl
+Return
+saveButton:
+MsgBox, % ideText
 Return
 
-Save:
-getDataFromEndpoint(DataInIDE1, "/Save")
-MsgBox, Saved in %startFileDisplayText%
+
+terminalInputInput:
+textFromTheTerminalImput := A_GuiControl
 Return
 
-OpenMain:
-fileText := getDataFromEndpoint(startFile, "/Open")
-Loop, Parse, startFile, "/"
-{
-startFileDisplayText := A_LoopField
-}
-GuiControl 2: Text, FileNameDisplayText, %startFileDisplayText%
-GuiControl 2: TextIDE, IDE1, %fileText%
-GuiControl 2: Enable, SaveButton
+terminalSend:
+MsgBox, % textFromTheTerminalImput
 Return
 
-Choose:
-InputBox, newFileOpen, Enter the name of the file
-newFileOpen := "HTProjects/" . newFileOpen
-;MsgBox, % newFileOpen
-fileText := getDataFromEndpoint(newFileOpen, "/Open")
-GuiControl 2: TextIDE, IDE1, %fileText%
-GuiControl 2: Enable, SaveButton
-Loop, Parse, newFileOpen, "/"
-{
-startFileDisplayText := A_LoopField
-}
-GuiControl 2: Text, FileNameDisplayText, %startFileDisplayText%
+quickButton1:
+MsgBox, % A_GuiControl
 Return
+
+quickButton2:
+MsgBox, % A_GuiControl
+Return
+
+quickButton3:
+MsgBox, % A_GuiControl
+Return
+

@@ -29,11 +29,22 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.32.2/ace.js" integrity="sha512-JLIRlxWh96sND3uUgI2RVHZJpgkWHg3+xoUY8XkgTPKpqRaqdk7zD/ck/XHXFSMW84o6GrP67dlqN3b98NB/yA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/ext-language_tools.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
+
     
 
   </head>
   <body>
     <script>
+
+      
+
+      
+
+      
+
+      
+
+      
 
       // JavaScript equivalent code with variables
 
@@ -59,6 +70,7 @@
       // Call the function with the desired favicon URL
       changeFaviconAtTheBeginning("https://i.ibb.co/Jpty1B8/305182938-1a0efe63-726e-49ca-a13c-d0ed627f2ea7.png");
 
+      
       function showCustomMessageBox(options, title, text, value, timeout) {
         return new Promise((resolve) => {
           // Define default options for the message box
@@ -234,6 +246,23 @@
         });
       }
 
+
+      var lastKeyPressed = "";
+
+      function trackLastKeyPressed() {
+        document.addEventListener("keydown", function (event) {
+          lastKeyPressed = event.key;
+          // console.log(lastKeyPressed);
+        });
+      }
+
+      function getLastKeyPressed() {
+        return lastKeyPressed;
+      }
+
+      // Call the trackLastKeyPressed function to start tracking key presses
+      trackLastKeyPressed();
+
       let lastInputTime = Date.now(); // Initialize with current timestamp
       let startTimestamp = Date.now(); // Initialize with current timestamp
 
@@ -318,21 +347,11 @@
         }
       }
 
-      async function ParseInt(num) {
-        if (num === null) {
-          return null;
-        }
-
-        num = num.trim();
-        num++;
-        num--;
-
-        return num;
-      }
 
       function isMobileDevice() {
         return /Mobi|Android/i.test(navigator.userAgent);
       }
+
 
       function GuiControl(action, id, param1, param2, param3, param4) {
         const element = document.getElementById(id);
@@ -365,7 +384,10 @@
           } else if (action === "font") {
             // Set font size
             element.style.fontSize = param1 + "px";
-          } else if (action === "color") {
+          } else if (action === "destroy") {
+      	    // Remove the element from the DOM
+    	    element.parentNode.removeChild(element);
+    	  } else if (action === "color") {
             // Set color
             element.style.color = param1;
           } else if (action === "picture") {
@@ -398,35 +420,6 @@
         }
       }
 
-      async function getDataFromEndpoint(data, endpoint) {
-        // Convert data to JSON string
-        const requestData = JSON.stringify(data);
-
-        // Set up fetch request options
-        const requestOptions = {
-          method: "POST", // or 'GET' depending on your server's requirements
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: requestData,
-        };
-
-        // Fetch data from the specified endpoint
-        const response = await fetch(endpoint, requestOptions);
-
-        // Check if response is successful
-        if (!response.ok) {
-          throw new Error(`Failed to fetch data from ${endpoint}. Status: ${response.status}`);
-        }
-
-        // Parse response data based on Content-Type header
-        const contentType = response.headers.get("content-type");
-        if (contentType && contentType.includes("application/json")) {
-          return response.json(); // Parse JSON response
-        } else {
-          return response.text(); // Parse plain text response
-        }
-      }
 
       function AddIDE(parent, xPos, yPos, w, h, id, font = 18, langName = "autohotkey", onChangeFunc, initialText = "") {
         var langTools = ace.require("ace/ext/language_tools");
@@ -434,10 +427,16 @@
         let Completer = {
           getCompletions: function (editor, session, pos, prefix, callback) {
 
-            if (prefix.startsWith("`"))
-            {
-              return
-              }
+            if (prefix.startsWith("p")) {
+                // Continue executing if the prefix starts with "p"
+            } else {
+                // Return early if the prefix does not start with "p" and its length is not greater than 1
+                if (prefix.length <= 1) {
+                    callback(null, []); // Return an empty array of completions
+                    return;
+                }
+            }
+
             let prefixLower = prefix.toLowerCase();
             let filteredTables = hth.filter(function (table) {
               return table.name.toLowerCase().startsWith(prefixLower);
@@ -459,6 +458,8 @@
           },
         };
         let hth = [{ name: "#AllowSameLineComments" }, { name: "#ClipboardTimeout" }, { name: "#CommentFlag" }, { name: "#Delimiter" }, { name: "#DerefChar" }, { name: "#ErrorStdOut" }, { name: "#EscapeChar" }, { name: "#HotkeyInterval" }, { name: "#HotkeyModifierTimeout" }, { name: "#Hotstring" }, { name: "#If" }, { name: "#IfTimeout" }, { name: "#IfWinActive" }, { name: "#IfWinExist" }, { name: "#IfWinNotActive" }, { name: "#IfWinNotExist" }, { name: "#Include" }, { name: "#IncludeAgain" }, { name: "#InputLevel" }, { name: "#InstallKeybdHook" }, { name: "#InstallMouseHook" }, { name: "#KeyHistory" }, { name: "#LTrim" }, { name: "#MaxHotkeysPerInterval" }, { name: "#MaxMem" }, { name: "#MaxThreads" }, { name: "#MaxThreadsBuffer" }, { name: "#MaxThreadsPerHotkey" }, { name: "#MenuMaskKey" }, { name: "#NoEnv" }, { name: "#NoTrayIcon" }, { name: "#Persistent" }, { name: "#Requires" }, { name: "#SingleInstance" }, { name: "#UseHook" }, { name: "#Warn" }, { name: "#WinActivateForce" }, { name: "break" }, { name: "case" }, { name: "catch" }, { name: "continue" }, { name: "else" }, { name: "finally" }, { name: "for" }, { name: "gosub" }, { name: "goto" }, { name: "if" }, { name: "IfEqual" }, { name: "IfExist" }, { name: "IfGreater" }, { name: "IfGreaterOrEqual" }, { name: "IfInString" }, { name: "IfLess" }, { name: "IfLessOrEqual" }, { name: "IfMsgBox" }, { name: "IfNotEqual" }, { name: "IfNotExist" }, { name: "IfNotInString" }, { name: "IfWinActive" }, { name: "IfWinExist" }, { name: "IfWinNotActive" }, { name: "IfWinNotExist" }, { name: "Loop" }, { name: "return" }, { name: "switch" }, { name: "throw" }, { name: "try" }, { name: "until" }, { name: "while" }, { name: "__Call" }, { name: "__Delete" }, { name: "__Get" }, { name: "__New" }, { name: "__Set" }, { name: "ahk_class" }, { name: "ahk_exe" }, { name: "ahk_group" }, { name: "ahk_id" }, { name: "ahk_pid" }, { name: "and" }, { name: "base" }, { name: "ByRef" }, { name: "class" }, { name: "extends" }, { name: "false" }, { name: "Files" }, { name: "global" }, { name: "local" }, { name: "new" }, { name: "not" }, { name: "or" }, { name: "Parse" }, { name: "ParseInt" }, { name: "Read" }, { name: "Reg" }, { name: "static" }, { name: "true" }, { name: "A_AhkPath" }, { name: "A_AhkVersion" }, { name: "A_AppData" }, { name: "A_AppDataCommon" }, { name: "A_Args" }, { name: "A_AutoTrim" }, { name: "A_BatchLines" }, { name: "A_CaretX" }, { name: "A_CaretY" }, { name: "A_ComputerName" }, { name: "A_ComSpec" }, { name: "A_ControlDelay" }, { name: "A_CoordModeCaret" }, { name: "A_CoordModeMenu" }, { name: "A_CoordModeMouse" }, { name: "A_CoordModePixel" }, { name: "A_CoordModeToolTip" }, { name: "A_Cursor" }, { name: "A_DD" }, { name: "A_DDD" }, { name: "A_DDDD" }, { name: "A_DefaultGui" }, { name: "A_DefaultListView" }, { name: "A_DefaultMouseSpeed" }, { name: "A_DefaultTreeView" }, { name: "A_Desktop" }, { name: "A_DesktopCommon" }, { name: "A_DetectHiddenText" }, { name: "A_DetectHiddenWindows" }, { name: "A_EndChar" }, { name: "A_EventInfo" }, { name: "A_ExitReason" }, { name: "A_FileEncoding" }, { name: "A_FormatFloat" }, { name: "A_FormatInteger" }, { name: "A_Gui" }, { name: "A_GuiControl" }, { name: "A_GuiControlEvent" }, { name: "A_GuiEvent" }, { name: "A_GuiHeight" }, { name: "A_GuiWidth" }, { name: "A_GuiX" }, { name: "A_GuiY" }, { name: "A_Hour" }, { name: "A_IconFile" }, { name: "A_IconHidden" }, { name: "A_IconNumber" }, { name: "A_IconTip" }, { name: "A_Index" }, { name: "A_IPAddress1" }, { name: "A_IPAddress2" }, { name: "A_IPAddress3" }, { name: "A_IPAddress4" }, { name: "A_Is64bitOS" }, { name: "A_IsAdmin" }, { name: "A_IsCompiled" }, { name: "A_IsCritical" }, { name: "A_IsPaused" }, { name: "A_IsSuspended" }, { name: "A_IsUnicode" }, { name: "A_KeyDelay" }, { name: "A_KeyDelayPlay" }, { name: "A_KeyDuration" }, { name: "A_KeyDurationPlay" }, { name: "A_Language" }, { name: "A_LastKey" }, { name: "A_LastError" }, { name: "A_LineFile" }, { name: "A_LineNumber" }, { name: "A_ListLines" }, { name: "A_LoopField" }, { name: "A_LoopFileAttrib" }, { name: "A_LoopFileDir" }, { name: "A_LoopFileExt" }, { name: "A_LoopFileFullPath" }, { name: "A_LoopFileLongPath" }, { name: "A_LoopFileName" }, { name: "A_LoopFilePath" }, { name: "A_LoopFileShortName" }, { name: "A_LoopFileShortPath" }, { name: "A_LoopFileSize" }, { name: "A_LoopFileSizeKB" }, { name: "A_LoopFileSizeMB" }, { name: "A_LoopFileTimeAccessed" }, { name: "A_LoopFileTimeCreated" }, { name: "A_LoopFileTimeModified" }, { name: "A_LoopReadLine" }, { name: "A_LoopRegKey" }, { name: "A_LoopRegName" }, { name: "A_LoopRegSubKey" }, { name: "A_LoopRegTimeModified" }, { name: "A_LoopRegType" }, { name: "A_MDay" }, { name: "A_Min" }, { name: "A_MM" }, { name: "A_MMM" }, { name: "A_MMMM" }, { name: "A_Mon" }, { name: "A_MouseDelay" }, { name: "A_MouseDelayPlay" }, { name: "A_MSec" }, { name: "A_MyDocuments" }, { name: "A_Now" }, { name: "A_NowUTC" }, { name: "A_NumBatchLines" }, { name: "A_OSType" }, { name: "A_OSVersion" }, { name: "A_PriorHotkey" }, { name: "A_PriorKey" }, { name: "A_ProgramFiles" }, { name: "A_Programs" }, { name: "A_ProgramsCommon" }, { name: "A_PtrSize" }, { name: "A_RegView" }, { name: "A_ScreenDPI" }, { name: "A_ScreenHeight" }, { name: "A_ScreenWidth" }, { name: "A_ScriptDir" }, { name: "A_ScriptFullPath" }, { name: "A_ScriptHwnd" }, { name: "A_ScriptName" }, { name: "A_Sec" }, { name: "A_SendLevel" }, { name: "A_SendMode" }, { name: "A_Space" }, { name: "A_StartMenu" }, { name: "A_StartMenuCommon" }, { name: "A_Startup" }, { name: "A_StartupCommon" }, { name: "A_StoreCapsLockMode" }, { name: "A_StringCaseSense" }, { name: "A_Tab" }, { name: "A_Temp" }, { name: "A_ThisFunc" }, { name: "A_ThisHotkey" }, { name: "A_ThisLabel" }, { name: "A_ThisMenu" }, { name: "A_ThisMenuItem" }, { name: "A_ThisMenuItemPos" }, { name: "A_TickCount" }, { name: "A_TimeIdle" }, { name: "A_TimeIdleKeyboard" }, { name: "A_TimeIdleMouse" }, { name: "A_TimeIdlePhysical" }, { name: "A_TimeSincePriorHotkey" }, { name: "A_TimeSinceThisHotkey" }, { name: "A_TitleMatchMode" }, { name: "A_TitleMatchModeSpeed" }, { name: "A_UserName" }, { name: "A_WDay" }, { name: "A_WinDelay" }, { name: "A_WinDir" }, { name: "A_WorkingDir" }, { name: "A_YDay" }, { name: "A_Year" }, { name: "A_YWeek" }, { name: "A_YYYY" }, { name: "Clipboard" }, { name: "ClipboardAll" }, { name: "ComSpec" }, { name: "ErrorLevel" }, { name: "ProgramFiles" }, { name: "this" }, { name: "Abs" }, { name: "ACos" }, { name: "Array" }, { name: "Asc" }, { name: "ASin" }, { name: "ATan" }, { name: "Ceil" }, { name: "Chr" }, { name: "ComObjActive" }, { name: "ComObjArray" }, { name: "ComObjConnect" }, { name: "ComObjCreate" }, { name: "ComObject" }, { name: "ComObjError" }, { name: "ComObjFlags" }, { name: "ComObjGet" }, { name: "ComObjQuery" }, { name: "ComObjType" }, { name: "ComObjValue" }, { name: "Cos" }, { name: "DllCall" }, { name: "Exception" }, { name: "Exp" }, { name: "FileExist" }, { name: "FileOpen" }, { name: "Floor" }, { name: "Format" }, { name: "Func" }, { name: "getDataFromEndpoint" }, { name: "GetKeyName" }, { name: "GetKeySC" }, { name: "GetKeyState" }, { name: "GetKeyVK" }, { name: "Hotstring" }, { name: "Icon" }, { name: "IL_Add" }, { name: "IL_Create" }, { name: "IL_Destroy" }, { name: "InputHook" }, { name: "InStr" }, { name: "IsByRef" }, { name: "isConnectedToBackend" }, { name: "IsFunc" }, { name: "IsLabel" }, { name: "isMobileDevice" }, { name: "IsObject" }, { name: "Ln" }, { name: "LoadPicture" }, { name: "Log" }, { name: "LTrim" }, { name: "LV_Add" }, { name: "LV_Delete" }, { name: "LV_DeleteCol" }, { name: "LV_GetCount" }, { name: "LV_GetNext" }, { name: "LV_GetText" }, { name: "LV_Insert" }, { name: "LV_InsertCol" }, { name: "LV_Modify" }, { name: "LV_ModifyCol" }, { name: "LV_SetImageList" }, { name: "Max" }, { name: "MenuGetHandle" }, { name: "MenuGetName" }, { name: "Min" }, { name: "Mod" }, { name: "NumGet" }, { name: "NumPut" }, { name: "ObjAddRef" }, { name: "ObjBindMethod" }, { name: "ObjClone" }, { name: "ObjCount" }, { name: "ObjDelete" }, { name: "Object" }, { name: "ObjGetAddress" }, { name: "ObjGetBase" }, { name: "ObjGetCapacity" }, { name: "ObjHasKey" }, { name: "ObjInsert" }, { name: "ObjInsertAt" }, { name: "ObjLength" }, { name: "ObjMaxIndex" }, { name: "ObjMinIndex" }, { name: "ObjNewEnum" }, { name: "ObjPop" }, { name: "ObjPush" }, { name: "ObjRawGet" }, { name: "ObjRawSet" }, { name: "ObjRelease" }, { name: "ObjRemove" }, { name: "ObjRemoveAt" }, { name: "ObjSetBase" }, { name: "ObjSetCapacity" }, { name: "OnClipboardChange" }, { name: "OnError" }, { name: "OnExit" }, { name: "OnMessage" }, { name: "Ord" }, { name: "RegExMatch" }, { name: "RegExReplace" }, { name: "RegisterCallback" }, { name: "Round" }, { name: "RTrim" }, { name: "StoreLocally" }, { name: "SB_SetIcon" }, { name: "SB_SetParts" }, { name: "SB_SetText" }, { name: "Sin" }, { name: "Sqrt" }, { name: "StrGet" }, { name: "StrLen" }, { name: "StrLower" }, { name: "StrPut" }, { name: "StrReplace" }, { name: "StrSplit" }, { name: "SubStr" }, { name: "Tan" }, { name: "Title" }, { name: "Trim" }, { name: "TV_Add" }, { name: "TV_Delete" }, { name: "TV_Get" }, { name: "TV_GetChild" }, { name: "TV_GetCount" }, { name: "TV_GetNext" }, { name: "TV_GetParent" }, { name: "TV_GetPrev" }, { name: "TV_GetSelection" }, { name: "TV_GetText" }, { name: "TV_Modify" }, { name: "TV_SetImageList" }, { name: "VarSetCapacity" }, { name: "WinActive" }, { name: "WinExist" }, { name: "AutoTrim" }, { name: "BlockInput" }, { name: "Click" }, { name: "ClipWait" }, { name: "Control" }, { name: "ControlClick" }, { name: "ControlFocus" }, { name: "ControlGet" }, { name: "ControlGetFocus" }, { name: "ControlGetPos" }, { name: "ControlGetText" }, { name: "ControlMove" }, { name: "ControlSend" }, { name: "ControlSendRaw" }, { name: "ControlSetText" }, { name: "CoordMode" }, { name: "Critical" }, { name: "DetectHiddenText" }, { name: "DetectHiddenWindows" }, { name: "Drive" }, { name: "DriveGet" }, { name: "DriveSpaceFree" }, { name: "Edit" }, { name: "Endpoint" }, { name: "EnvAdd" }, { name: "EnvDiv" }, { name: "EnvGet" }, { name: "EnvMult" }, { name: "EnvSet" }, { name: "EnvSub" }, { name: "EnvUpdate" }, { name: "Exit" }, { name: "ExitApp" }, { name: "FileAppend" }, { name: "FileCopy" }, { name: "FileCopyDir" }, { name: "FileCreateDir" }, { name: "FileCreateShortcut" }, { name: "FileDelete" }, { name: "FileEncoding" }, { name: "FileGetAttrib" }, { name: "FileGetShortcut" }, { name: "FileGetSize" }, { name: "FileGetTime" }, { name: "FileGetVersion" }, { name: "FileInstall" }, { name: "FileMove" }, { name: "FileMoveDir" }, { name: "FileRead" }, { name: "FileReadLine" }, { name: "FileRecycle" }, { name: "FileRecycleEmpty" }, { name: "FileRemoveDir" }, { name: "FileSelectFile" }, { name: "FileSelectFolder" }, { name: "FileSetAttrib" }, { name: "FileSetTime" }, { name: "FormatTime" }, { name: "getDataFromAPI" }, { name: "getDataFromJSON" }, { name: "GetKeyState" }, { name: "getUrlParams" }, { name: "GroupActivate" }, { name: "GroupAdd" }, { name: "GroupClose" }, { name: "GroupDeactivate" }, { name: "Gui" }, { name: "GuiControl" }, { name: "GuiControlGet" }, { name: "Hotkey" }, { name: "ImageSearch" }, { name: "IniDelete" }, { name: "IniRead" }, { name: "IniWrite" }, { name: "Input" }, { name: "InputBox" }, { name: "KeyHistory" }, { name: "KeyWait" }, { name: "ListHotkeys" }, { name: "ListLines" }, { name: "ListVars" }, { name: "Menu" }, { name: "MouseClick" }, { name: "MouseClickDrag" }, { name: "MouseGetPos" }, { name: "MouseMove" }, { name: "MsgBox" }, { name: "OnExit" }, { name: "OutputDebug" }, { name: "Pause" }, { name: "PixelGetColor" }, { name: "PixelSearch" }, { name: "PostMessage" }, { name: "Process" }, { name: "Progress" }, { name: "Random" }, { name: "RegDelete" }, { name: "RegRead" }, { name: "RegWrite" }, { name: "Reload" }, { name: "reloadWithParams" }, { name: "Run" }, { name: "RunAs" }, { name: "RunWait" }, { name: "Send" }, { name: "SendEvent" }, { name: "SendInput" }, { name: "SendLevel" }, { name: "SendMessage" }, { name: "SendMode" }, { name: "SendPlay" }, { name: "SendRaw" }, { name: "SetBatchLines" }, { name: "SetCapsLockState" }, { name: "SetControlDelay" }, { name: "SetDefaultMouseSpeed" }, { name: "SetEnv" }, { name: "SetFormat" }, { name: "SetKeyDelay" }, { name: "SetMouseDelay" }, { name: "SetNumLockState" }, { name: "SetRegView" }, { name: "SetScrollLockState" }, { name: "SetStoreCapsLockMode" }, { name: "SetTimer" }, { name: "SetTitleMatchMode" }, { name: "SetWinDelay" }, { name: "SetWorkingDir" }, { name: "Shutdown" }, { name: "Sleep" }, { name: "Sort" }, { name: "SoundBeep" }, { name: "SoundGet" }, { name: "SoundGetWaveVolume" }, { name: "SoundPlay" }, { name: "SoundSet" }, { name: "SoundSetWaveVolume" }, { name: "SplashImage" }, { name: "SplashTextOff" }, { name: "SplashTextOn" }, { name: "SplitPath" }, { name: "StatusBarGetText" }, { name: "StatusBarWait" }, { name: "StringCaseSense" }, { name: "StringGetPos" }, { name: "StringLeft" }, { name: "StringLen" }, { name: "StringLower" }, { name: "StringMid" }, { name: "StringReplace" }, { name: "StringRight" }, { name: "StringSplit" }, { name: "StringTrimLeft" }, { name: "StringTrimRight" }, { name: "StringUpper" }, { name: "Suspend" }, { name: "SysGet" }, { name: "Thread" }, { name: "ToolTip" }, { name: "Transform" }, { name: "TrayTip" }, { name: "URLDownloadToFile" }, { name: "WinActivate" }, { name: "WinActivateBottom" }, { name: "WinClose" }, { name: "WinGet" }, { name: "WinGetActiveStats" }, { name: "WinGetActiveTitle" }, { name: "WinGetClass" }, { name: "WinGetPos" }, { name: "WinGetText" }, { name: "WinGetTitle" }, { name: "WinHide" }, { name: "WinKill" }, { name: "WinMaximize" }, { name: "WinMenuSelectItem" }, { name: "WinMinimize" }, { name: "WinMinimizeAll" }, { name: "WinMinimizeAllUndo" }, { name: "WinMove" }, { name: "WinRestore" }, { name: "WinSet" }, { name: "WinSetTitle" }, { name: "WinShow" }, { name: "WinWait" }, { name: "WinWaitActive" }, { name: "WinWaitClose" }, { name: "WinWaitNotActive" }];
+
+
 
         // Create a new div element for the editor
         var editorDiv = document.createElement("div");
@@ -627,36 +628,56 @@
         });
       }
 
+
+
+// Define the str function
+function str(value) {
+    return String(value);
+}
+
+
       // Single async function to structure the entire script
       async function runScript() {
         // Declare and assign a variable
 
         
+
+
+
+
+var Gui1 = {}
+Gui1 = document.createElement("div")
+Gui1.id = "Gui1"
+
+var Gui2 = {}
+Gui2 = document.createElement("div")
+Gui2.id = "Gui2"
+
+var Gui1 = {}
+Gui1 = document.createElement("div")
+Gui1.id = "Gui1"
+
+var Gui2 = {}
+Gui2 = document.createElement("div")
+Gui2.id = "Gui2"
+
+var Gui1 = {}
+Gui1 = document.createElement("div")
+Gui1.id = "Gui1"
+
+var Gui2 = {}
+Gui2 = document.createElement("div")
+Gui2.id = "Gui2"
+
+
+
+
+
+// Declare and assign a variable
 let variables = {
-  A_Index: null,
-  A_LoopField: null,
-  boardH: null,
-  boardW: null,
-  button1y: null,
-  characters: null,
-  DataInIDE1: null,
-  fileText: null,
-  IDEh: null,
-  IDEw: null,
-  newFileOpen: null,
-  scale: null,
-  startFile: null,
-  startFileDisplayText: null,
+null: null,
 };
-
-let Gui1 = {};
-Gui1 = document.createElement("div");
-
-let Gui2 = {};
-Gui2 = document.createElement("div");
-
 // HTTermux
-
 Gui1.style.position = "absolute";
 Gui1.style.width = window.innerWidth + "px"; // Set the width
 Gui1.style.height = "" + BuildInVars("A_ScreenHeight") + "px"; // Set the height
@@ -667,64 +688,16 @@ Gui1.style.fontSize = "15px";
 Gui1.style.padding = "0px";
 Gui1.style.borderRadius = "0px";
 Gui1.style.fontFamily = ", sans-serif"; // Specify your desired font here
-Gui1.style.zIndex = "100";
-
-document.body.appendChild(Gui1) // Append the GUI window to the body
+Gui1.style.zIndex = "10";
+document.body.appendChild(Gui1); // Append the GUI window to the body
 Gui1.style.display = "block";
-
-document.documentElement.setAttribute("style", "padding: 0; margin: 0;")
-document.head.setAttribute("style", "padding: 0; margin: 0;")
-document.body.setAttribute("style", "overflow-x: hidden;padding: 0; margin: 0;")
-if ( BuildInVars("A_ScreenWidth") > BuildInVars("A_ScreenHeight") )
-{
-
-for (/* Normal Loop */ variables.A_Index1 = 1; ; variables.A_Index1++)
-{
-variables.scale =   ( 100000 - 1900 )  / variables.A_Index1;
-
-variables.boardW =  1900 / variables.scale;
-
-variables.boardH =  700 / variables.scale;
-
-if ( variables.boardW >= BuildInVars("A_ScreenWidth") - 50 )
-{
-break
-}
-
-if ( variables.boardH >= BuildInVars("A_ScreenHeight") - 50 )
-{
-break
-}
-}
-
-}
-else
-{
-
-for (/* Normal Loop */ variables.A_Index2 = 1; ; variables.A_Index2++)
-{
-variables.scale =   ( 100000 - 700 )  / variables.A_Index2;
-
-variables.boardW =  350 / variables.scale;
-
-variables.boardH =  700 / variables.scale;
-
-if ( variables.boardW >= BuildInVars("A_ScreenWidth") - 50 )
-{
-break
-}
-
-if ( variables.boardH >= BuildInVars("A_ScreenHeight") - 50 )
-{
-break
-}
-}
-
-}
-variables.startFile =  "HTProjects/main.htpy";
-
-await getDataFromEndpoint("make the dir HTProjects if not made alredy", "/runcommand")
-
+document.documentElement.setAttribute("style", "padding: 0; margin: 0;");
+document.head.setAttribute("style", "padding: 0; margin: 0;");
+document.body.setAttribute("style", "overflow-x: hidden;padding: 0; margin: 0;");
+variables.boardW = BuildInVars("A_ScreenWidth") - 20
+variables.boardH = BuildInVars("A_ScreenHeight") - 20
+variables.ideText = ""
+variables.textFromTheTerminalImput = ""
 Gui2.style.position = "absolute";
 Gui2.style.width = "" + variables.boardW + "px"; // Set the width
 Gui2.style.height = "" + variables.boardH + "px"; // Set the height
@@ -735,168 +708,219 @@ Gui2.style.fontSize = "15px";
 Gui2.style.borderRadius = "0px";
 Gui2.style.padding = "0px";
 Gui2.style.border = "2px solid white";
-Gui2.style.fontFamily = "Courier, sans-serif"; // Specify your desired font here
-Gui2.style.zIndex = "200";
-
+Gui2.style.fontFamily = ", sans-serif"; // Specify your desired font here
+Gui2.style.zIndex = "20";
 // Calculate center position
 Gui2.style.left = (window.innerWidth - parseInt(Gui2.style.width)) / 2 + "px";
 Gui2.style.top = (window.innerHeight - parseInt(Gui2.style.height)) / 2 + "px";
-
-document.body.appendChild(Gui2) // Append the GUI window to the body
+document.body.appendChild(Gui2); // Append the GUI window to the body
 Gui2.style.display = "block";
-
-variables.IDEh =  variables.boardH - 20 - 85;
-
-variables.IDEw =  variables.boardW - 20;
-
-variables.button1y =  variables.boardH - 50;
-
-if ( await isMobileDevice ( ) )
+if (( await isMobileDevice () ))
 {
-
-AddIDE(Gui2, 10, 25, variables.IDEw, variables.IDEh, "Gui2IDE1", 13, "autohotkey", IDE1,    null    )
 }
-else
+variables.IDEh = variables.boardH - 20 - 250
+variables.IDEhIDE = variables.boardH - 20 - 250 - 50
+variables.IDEw = variables.boardW - 20
+AddIDE(Gui2, 10, 50, variables.IDEw, variables.IDEhIDE, "Gui2IDEtext", 18, "autohotkey", IDE1,    null    );
+if (( await isMobileDevice () ))
 {
-
-AddIDE(Gui2, 10, 25, variables.IDEw, variables.IDEh, "Gui2IDE1", 18, "autohotkey", IDE1,    null    )
 }
-
-Gui2SaveButton = document.createElement("button")
-Gui2SaveButton.id = "Gui2" + "SaveButton"; // Set ID for referencing
-Gui2SaveButton.textContent = "Save";
-Gui2SaveButton.style.fontSize = "18px"; // Set font size
-Gui2SaveButton.style.position = "absolute"; // Set position to absolute
-Gui2SaveButton.style.left = "10px"; // Set initial x position
-Gui2SaveButton.style.top = "" + variables.button1y + "px"; // Set initial y position
-Gui2SaveButton.style.width = "100px"; // Set width
-Gui2SaveButton.style.height = "40px"; // Set height
-Gui2SaveButton.style.cursor = "pointer"; // Change cursor on hover
-Gui2SaveButton.style.border = "";
-Gui2SaveButton.style.background = "";
-Gui2SaveButton.style.backgroundColor = "";
-Gui2SaveButton.style.borderRadius = "";
-Gui2SaveButton.style.color = "";
-Gui2SaveButton.style.fontFamily = ", sans-serif"; // Specify your desired font here
-Gui2SaveButton.onclick = function (event) {
-A_GuiControl = event.target.id.replace(/^Gui\d*/, "")
-Save(A_GuiControl)
-};
-Gui2.appendChild(Gui2SaveButton)
-
-GuiControl("disable", "Gui2SaveButton")
-
-Gui2Button2 = document.createElement("button")
-Gui2Button2.id = "Gui2" + "Button" + "2"; // Set ID for referencing
-Gui2Button2.textContent = "OpenMain";
-Gui2Button2.style.fontSize = "18px"; // Set font size
-Gui2Button2.style.position = "absolute"; // Set position to absolute
-Gui2Button2.style.left = "125px"; // Set initial x position
-Gui2Button2.style.top = "" + variables.button1y + "px"; // Set initial y position
-Gui2Button2.style.width = "100px"; // Set width
-Gui2Button2.style.height = "40px"; // Set height
-Gui2Button2.style.cursor = "pointer"; // Change cursor on hover
-Gui2Button2.style.border = "";
-Gui2Button2.style.background = "";
-Gui2Button2.style.backgroundColor = "";
-Gui2Button2.style.borderRadius = "";
-Gui2Button2.style.color = "";
-Gui2Button2.style.fontFamily = ", sans-serif"; // Specify your desired font here
-Gui2Button2.onclick = function (event) {
+Gui2Button1 = document.createElement("button");
+Gui2Button1.id = "Gui2" + "Button" + "1"; // Set ID for referencing
+Gui2Button1.textContent = "Save";
+Gui2Button1.style.fontSize = "15px"; // Set font size
+Gui2Button1.style.position = "absolute"; // Set position to absolute
+Gui2Button1.style.left = "10px"; // Set initial x position
+Gui2Button1.style.top = "10px"; // Set initial y position
+Gui2Button1.style.width = "60px"; // Set width
+Gui2Button1.style.height = "35px"; // Set height
+Gui2Button1.style.cursor = "pointer"; // Change cursor on hover
+Gui2Button1.style.border = "";
+Gui2Button1.style.background = "";
+Gui2Button1.style.backgroundColor = "";
+Gui2Button1.style.borderRadius = "";
+Gui2Button1.style.color = "";
+Gui2Button1.style.fontFamily = ", sans-serif"; // Specify your desired font here
+Gui2Button1.onclick = function (event) {
 A_GuiControl = event.target.textContent
-OpenMain(A_GuiControl)
+  saveButton(A_GuiControl);
 };
-Gui2.appendChild(Gui2Button2)
-
-Gui2Button3 = document.createElement("button")
-Gui2Button3.id = "Gui2" + "Button" + "3"; // Set ID for referencing
-Gui2Button3.textContent = "Choose";
-Gui2Button3.style.fontSize = "18px"; // Set font size
-Gui2Button3.style.position = "absolute"; // Set position to absolute
-Gui2Button3.style.left = "240px"; // Set initial x position
-Gui2Button3.style.top = "" + variables.button1y + "px"; // Set initial y position
-Gui2Button3.style.width = "100px"; // Set width
-Gui2Button3.style.height = "40px"; // Set height
-Gui2Button3.style.cursor = "pointer"; // Change cursor on hover
-Gui2Button3.style.border = "";
-Gui2Button3.style.background = "";
-Gui2Button3.style.backgroundColor = "";
-Gui2Button3.style.borderRadius = "";
-Gui2Button3.style.color = "";
-Gui2Button3.style.fontFamily = ", sans-serif"; // Specify your desired font here
-Gui2Button3.onclick = function (event) {
+Gui2.appendChild(Gui2Button1);
+variables.displayPathW = variables.boardW - 105
+Gui2displayPath = document.createElement("div");
+Gui2displayPath.id = "Gui2" + "displayPath"; // Set ID for referencing
+Gui2displayPath.textContent = "displayPath/displayPathW.somting";
+Gui2displayPath.style.color = "#black"
+Gui2displayPath.style.fontSize = "15px"; // Set font size
+Gui2displayPath.style.position = "absolute"; // Set position to absolute
+Gui2displayPath.style.left = "80px"; // Set initial x position
+Gui2displayPath.style.top = "10px"; // Set initial y position
+Gui2displayPath.style.width = "" + variables.displayPathW + "px"; // Set width
+Gui2displayPath.style.height = "35px"; // Set height
+Gui2.appendChild(Gui2displayPath);
+variables.buttonAccess1X = 10
+variables.buttonAccess1Y = variables.IDEh + 20
+variables.buttonAccess2X = 130
+variables.buttonAccess2Y = variables.IDEh + 20
+variables.buttonAccess3X = 250
+variables.buttonAccess3Y = variables.IDEh + 20
+Gui2quickButton1 = document.createElement("button");
+Gui2quickButton1.id = "Gui2" + "quickButton1"; // Set ID for referencing
+Gui2quickButton1.textContent = "quickButton1";
+Gui2quickButton1.style.fontSize = "15px"; // Set font size
+Gui2quickButton1.style.position = "absolute"; // Set position to absolute
+Gui2quickButton1.style.left = "" + variables.buttonAccess1X + "px"; // Set initial x position
+Gui2quickButton1.style.top = "" + variables.buttonAccess1Y + "px"; // Set initial y position
+Gui2quickButton1.style.width = "110px"; // Set width
+Gui2quickButton1.style.height = "40px"; // Set height
+Gui2quickButton1.style.cursor = "pointer"; // Change cursor on hover
+Gui2quickButton1.style.border = "";
+Gui2quickButton1.style.background = "";
+Gui2quickButton1.style.backgroundColor = "";
+Gui2quickButton1.style.borderRadius = "";
+Gui2quickButton1.style.color = "";
+Gui2quickButton1.style.fontFamily = ", sans-serif"; // Specify your desired font here
+Gui2quickButton1.onclick = function (event) {
+A_GuiControl = event.target.id.replace(/^Gui\d*/, "");
+  quickButton1(A_GuiControl);
+};
+Gui2.appendChild(Gui2quickButton1);
+Gui2quickButton2 = document.createElement("button");
+Gui2quickButton2.id = "Gui2" + "quickButton2"; // Set ID for referencing
+Gui2quickButton2.textContent = "quickButton2";
+Gui2quickButton2.style.fontSize = "15px"; // Set font size
+Gui2quickButton2.style.position = "absolute"; // Set position to absolute
+Gui2quickButton2.style.left = "" + variables.buttonAccess2X + "px"; // Set initial x position
+Gui2quickButton2.style.top = "" + variables.buttonAccess2Y + "px"; // Set initial y position
+Gui2quickButton2.style.width = "110px"; // Set width
+Gui2quickButton2.style.height = "40px"; // Set height
+Gui2quickButton2.style.cursor = "pointer"; // Change cursor on hover
+Gui2quickButton2.style.border = "";
+Gui2quickButton2.style.background = "";
+Gui2quickButton2.style.backgroundColor = "";
+Gui2quickButton2.style.borderRadius = "";
+Gui2quickButton2.style.color = "";
+Gui2quickButton2.style.fontFamily = ", sans-serif"; // Specify your desired font here
+Gui2quickButton2.onclick = function (event) {
+A_GuiControl = event.target.id.replace(/^Gui\d*/, "");
+  quickButton2(A_GuiControl);
+};
+Gui2.appendChild(Gui2quickButton2);
+Gui2quickButton3 = document.createElement("button");
+Gui2quickButton3.id = "Gui2" + "quickButton3"; // Set ID for referencing
+Gui2quickButton3.textContent = "quickButton3";
+Gui2quickButton3.style.fontSize = "15px"; // Set font size
+Gui2quickButton3.style.position = "absolute"; // Set position to absolute
+Gui2quickButton3.style.left = "" + variables.buttonAccess3X + "px"; // Set initial x position
+Gui2quickButton3.style.top = "" + variables.buttonAccess3Y + "px"; // Set initial y position
+Gui2quickButton3.style.width = "110px"; // Set width
+Gui2quickButton3.style.height = "40px"; // Set height
+Gui2quickButton3.style.cursor = "pointer"; // Change cursor on hover
+Gui2quickButton3.style.border = "";
+Gui2quickButton3.style.background = "";
+Gui2quickButton3.style.backgroundColor = "";
+Gui2quickButton3.style.borderRadius = "";
+Gui2quickButton3.style.color = "";
+Gui2quickButton3.style.fontFamily = ", sans-serif"; // Specify your desired font here
+Gui2quickButton3.onclick = function (event) {
+A_GuiControl = event.target.id.replace(/^Gui\d*/, "");
+  quickButton3(A_GuiControl);
+};
+Gui2.appendChild(Gui2quickButton3);
+variables.terminalOutPutY = variables.IDEh + 20 + 50
+Gui2terminalOutPut = document.createElement("textarea");
+Gui2terminalOutPut.id = "Gui2" + "terminalOutPut"; // Set ID for referencing
+Gui2terminalOutPut.placeholder = "";
+Gui2terminalOutPut.style.fontSize = "15px"; // Set font size
+Gui2terminalOutPut.style.resize = "none"; // Disable resizing
+Gui2terminalOutPut.style.position = "absolute"; // Set position to absolute
+Gui2terminalOutPut.style.left = "10px"; // Set initial x position
+Gui2terminalOutPut.style.top = "" + variables.terminalOutPutY + "px"; // Set initial y position
+Gui2terminalOutPut.style.width = "" + variables.IDEw + "px"; // Set width
+Gui2terminalOutPut.style.height = "140px"; // Set height
+Gui2terminalOutPut.style.border = ""
+Gui2terminalOutPut.style.color = "#ffffff"
+Gui2terminalOutPut.style.background = ""
+Gui2terminalOutPut.style.backgroundColor = "#121212"
+Gui2terminalOutPut.style.borderRadius = ""
+Gui2terminalOutPut.style.fontFamily = ", sans-serif"; // Specify your desired font here
+Gui2.appendChild(Gui2terminalOutPut);
+GuiControl("disable", "Gui2terminalOutPut");
+variables.terminalInputY = variables.IDEh + 20 + 50 + 150
+variables.terminalInputW = variables.IDEw - 50
+Gui2terminalInput = document.createElement("textarea");
+Gui2terminalInput.id = "Gui2" + "terminalInput"; // Set ID for referencing
+Gui2terminalInput.placeholder = "";
+Gui2terminalInput.style.fontSize = "18px"; // Set font size
+Gui2terminalInput.style.resize = "none"; // Disable resizing
+Gui2terminalInput.style.position = "absolute"; // Set position to absolute
+Gui2terminalInput.style.left = "10px"; // Set initial x position
+Gui2terminalInput.style.top = "" + variables.terminalInputY + "px"; // Set initial y position
+Gui2terminalInput.style.width = "" + variables.terminalInputW + "px"; // Set width
+Gui2terminalInput.style.height = "40px"; // Set height
+Gui2terminalInput.style.border = ""
+Gui2terminalInput.style.color = "#ffffff"
+Gui2terminalInput.style.background = ""
+Gui2terminalInput.style.backgroundColor = "#121212"
+Gui2terminalInput.style.borderRadius = ""
+Gui2terminalInput.style.fontFamily = ", sans-serif"; // Specify your desired font here
+Gui2terminalInput.addEventListener("input", function () {
+A_GuiControl = Gui2terminalInput.value
+  terminalInputInput(A_GuiControl);
+});
+Gui2.appendChild(Gui2terminalInput);
+variables.terminalSend = variables.terminalInputW + 20
+Gui2Button5 = document.createElement("button");
+Gui2Button5.id = "Gui2" + "Button" + "5"; // Set ID for referencing
+Gui2Button5.textContent = "Send";
+Gui2Button5.style.fontSize = "12px"; // Set font size
+Gui2Button5.style.position = "absolute"; // Set position to absolute
+Gui2Button5.style.left = "" + variables.terminalSend + "px"; // Set initial x position
+Gui2Button5.style.top = "" + variables.terminalInputY + "px"; // Set initial y position
+Gui2Button5.style.width = "45px"; // Set width
+Gui2Button5.style.height = "45px"; // Set height
+Gui2Button5.style.cursor = "pointer"; // Change cursor on hover
+Gui2Button5.style.border = "";
+Gui2Button5.style.background = "";
+Gui2Button5.style.backgroundColor = "";
+Gui2Button5.style.borderRadius = "";
+Gui2Button5.style.color = "";
+Gui2Button5.style.fontFamily = ", sans-serif"; // Specify your desired font here
+Gui2Button5.onclick = function (event) {
 A_GuiControl = event.target.textContent
-Choose(A_GuiControl)
+  terminalSend(A_GuiControl);
 };
-Gui2.appendChild(Gui2Button3)
-
-Gui2FileNameDisplayText = document.createElement("div")
-Gui2FileNameDisplayText.id = "Gui2" + "FileNameDisplayText"; // Set ID for referencing
-Gui2FileNameDisplayText.textContent = "main.htpy";
-Gui2FileNameDisplayText.style.color = "#black"
-Gui2FileNameDisplayText.style.fontSize = "13px"; // Set font size
-Gui2FileNameDisplayText.style.position = "absolute"; // Set position to absolute
-Gui2FileNameDisplayText.style.left = "10px"; // Set initial x position
-Gui2FileNameDisplayText.style.top = "5px"; // Set initial y position
-Gui2FileNameDisplayText.style.width = "100px"; // Set width
-Gui2FileNameDisplayText.style.height = "20px"; // Set height
-Gui2.appendChild(Gui2FileNameDisplayText)
-
-await OpenMain()
+Gui2.appendChild(Gui2Button5);
 return
-
 async function IDE1(A_GuiControl)
 {
-variables.DataInIDE1 =  A_GuiControl;
-
+variables.ideText = A_GuiControl
 }
-
-async function Save(A_GuiControl)
+async function saveButton(A_GuiControl)
 {
-await getDataFromEndpoint(variables.DataInIDE1, "/Save")
-await showCustomMessageBox({}," ", "Saved in " + variables.startFileDisplayText + " ", 0, 0)
+await showCustomMessageBox({}," ", variables.ideText, 0, 0.)
 }
-
-async function OpenMain(A_GuiControl)
+async function terminalInputInput(A_GuiControl)
 {
-variables.fileText =  await getDataFromEndpoint ( variables.startFile, "/Open" )
-
-variables.characters3 = variables.startFile.split(/["/"]/)
-variables.charLength3 = variables.characters3.length
-
-for (/* Loop parse */ variables.A_Index3 = 1; variables.A_Index3 <= variables.charLength3; variables.A_Index3++) {
-variables.A_LoopField3 = variables.characters3[variables.A_Index3 - 1]; // Using array notation to access characters
-
-variables.startFileDisplayText =  variables.A_LoopField3;
-
+variables.textFromTheTerminalImput = A_GuiControl
 }
-GuiControl("text", "Gui2FileNameDisplayText", variables.startFileDisplayText)
-GuiControl("textide", "Gui2IDE1", variables.fileText)
-GuiControl("enable", "Gui2SaveButton")
-}
-
-async function Choose(A_GuiControl)
+async function terminalSend(A_GuiControl)
 {
-variables.newFileOpen = prompt('Enter the name of the file')
-variables.newFileOpen =  "HTProjects/" + variables.newFileOpen;
-
-//MsgBox, % newFileOpen
-variables.fileText =  await getDataFromEndpoint ( variables.newFileOpen, "/Open" )
-
-GuiControl("textide", "Gui2IDE1", variables.fileText)
-GuiControl("enable", "Gui2SaveButton")
-
-variables.characters4 = variables.newFileOpen.split(/["/"]/)
-variables.charLength4 = variables.characters4.length
-
-for (/* Loop parse */ variables.A_Index4 = 1; variables.A_Index4 <= variables.charLength4; variables.A_Index4++) {
-variables.A_LoopField4 = variables.characters4[variables.A_Index4 - 1]; // Using array notation to access characters
-
-variables.startFileDisplayText =  variables.A_LoopField4;
-
+await showCustomMessageBox({}," ", variables.textFromTheTerminalImput, 0, 0.)
 }
-GuiControl("text", "Gui2FileNameDisplayText", variables.startFileDisplayText)
+async function quickButton1(A_GuiControl)
+{
+await showCustomMessageBox({}," ", A_GuiControl, 0, 0.)
 }
+async function quickButton2(A_GuiControl)
+{
+await showCustomMessageBox({}," ", A_GuiControl, 0, 0.)
+}
+async function quickButton3(A_GuiControl)
+{
+await showCustomMessageBox({}," ", A_GuiControl, 0, 0.)
+}
+
 
  }
 
