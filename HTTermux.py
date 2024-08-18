@@ -10,6 +10,22 @@ def app_route():
 # Define a dictionary to store dynamic variables
 variables = {}
 
+def LoopParseFunc(var, delimiter1="", delimiter2=""):
+    import re
+    if not delimiter1 and not delimiter2:
+        # If no delimiters are provided, return a list of characters
+        items = list(var)
+    else:
+        # Construct the regular expression pattern for splitting the string
+        pattern = r'[' + re.escape(delimiter1) + re.escape(delimiter2) + r']+'
+        # Split the string using the constructed pattern
+        items = re.split(pattern, var)
+    return items
+
+def Trim(inputString):
+    if inputString is None:
+        return ""
+    return inputString.strip()
 import os
 def FileRead(path):
     # Remove any extra double quotes around the path
@@ -46,6 +62,12 @@ def test():
 def open():
     variables['fileName'] = request.get_json()
     print(variables['fileName'])
+    items = LoopParseFunc(variables['fileName'], "\n", "\r")
+    for A_Index1, A_LoopField1 in enumerate(items, start=1):
+        variables['A_Index1'] = A_Index1
+        variables['A_LoopField1'] = A_LoopField1
+        if (variables['A_Index1'] == 1):
+            variables['fileName'] = Trim(variables['A_LoopField1'])
     variables['data'] = FileRead(variables['fileName'])
     print(variables['data'])
     variables['data'] = str(variables['data'])

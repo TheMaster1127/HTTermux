@@ -10,6 +10,13 @@ return data
 endpoint, fileName, open
 {
 MsgBox, % fileName
+Loop, Parse, fileName, `n, `r
+{
+if (A_Index = 1)
+{
+fileName := Trim(A_LoopField)
+}
+}
 data := FileRead(fileName)
 MsgBox, % data
 data := str(data)
