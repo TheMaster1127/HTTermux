@@ -77,7 +77,6 @@ textFromTheTerminalImput := A_GuiControl
 Return
 
 terminalSend:
-gosub, saveButton
 if (Trim(textFromTheTerminalImput) != "")
 {
 textFromTheTerminalImput := Trim(textFromTheTerminalImput)
