@@ -71,7 +71,13 @@ Return
 
 terminalSend:
 gosub, saveButton
-MsgBox, % textFromTheTerminalImput
+
+if (Trim(textFromTheTerminalImput) != "")
+{
+textFromTheTerminalImput := Trim(textFromTheTerminalImput)
+MsgBox, % "cd path/path && " . textFromTheTerminalImput . " && pwd"
+}
+MsgBox, % getDataFromEndpoint"cd path/path && " . textFromTheTerminalImput . " && pwd", "/test")
 Return
 
 quickButton1:
@@ -85,4 +91,3 @@ Return
 quickButton3:
 MsgBox, % A_GuiControl
 Return
-
