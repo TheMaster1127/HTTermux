@@ -9,6 +9,8 @@ return data
 
 endpoint, fileName, open
 {
+MsgBox, % fileName
 FileRead, data, %fileName%
+MsgBox, % data
 return data
 }

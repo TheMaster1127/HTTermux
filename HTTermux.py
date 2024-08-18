@@ -45,7 +45,9 @@ def test():
 @app.route('/open', methods=['POST'])
 def open():
     variables['fileName'] = request.get_json()
+    print(variables['fileName'])
     variables['data'] = FileRead("" + variables['fileName'] + "")
+    print(variables['data'])
     return variables['data']
 
 
