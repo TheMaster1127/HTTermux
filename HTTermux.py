@@ -81,7 +81,7 @@ def save():
         variables['A_Index1'] = A_Index1
         variables['A_LoopField1'] = A_LoopField1
         if (variables['A_Index1'] == 1):
-            variables['fileName'] = variables['A_LoopField1'] ; variables['First'] variables['line'] variables['is'] variables['the'] variables['filename']
+            variables['fileName'] = variables['A_LoopField1']
         else:
             # Convert each character to its ASCII value
             items = LoopParseFunc(variables['A_LoopField1'])

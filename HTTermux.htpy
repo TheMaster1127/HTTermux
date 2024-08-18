@@ -23,7 +23,7 @@ Loop, Parse, data, `n, `r
 {
 if (A_Index = 1)
 {
-fileName := A_LoopField  ; First line is the filename
+fileName := A_LoopField
 }
 else
 {
