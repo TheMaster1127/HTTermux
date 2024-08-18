@@ -55,6 +55,9 @@ Gui 2: Add, Edit, x10 y%terminalInputY% h40 w%terminalInputW% bg121212 cffffff g
 terminalSend := terminalInputW + 20
 Gui 2: Font, s12
 Gui 2: Add, Button, x%terminalSend% y%terminalInputY% h45 w45 gterminalSend, Send
+
+pwd := Trim(getDataFromEndpoint("pwd", "/test"))
+
 return
 
 IDE1:
@@ -77,7 +80,7 @@ if (Trim(textFromTheTerminalImput) != "")
 textFromTheTerminalImput := Trim(textFromTheTerminalImput)
 MsgBox, % "cd path/path && " . textFromTheTerminalImput . " && pwd"
 }
-MsgBox, % getDataFromEndpoint("cd path/path && " . textFromTheTerminalImput . " && pwd", "/test")
+MsgBox, % getDataFromEndpoint("cd " . pwd . " && " . textFromTheTerminalImput . " && pwd", "/test")
 Return
 
 quickButton1:

@@ -932,6 +932,7 @@ A_GuiControl = event.target.textContent
   terminalSend(A_GuiControl);
 };
 Gui2.appendChild(Gui2Button5);
+variables.pwd = await Trim (await getDataFromEndpoint ("pwd" , "/test") )
 return
 async function IDE1(A_GuiControl)
 {
@@ -953,7 +954,7 @@ if (( await Trim (variables.textFromTheTerminalImput)  != "" ))
 variables.textFromTheTerminalImput = await Trim (variables.textFromTheTerminalImput )
 await showCustomMessageBox({}," ", "cd path/path && " + variables.textFromTheTerminalImput + " && pwd", 0, 0.)
 }
-await showCustomMessageBox({}," ", await getDataFromEndpoint ("cd path/path && " + variables.textFromTheTerminalImput + " && pwd" , "/test" ), 0, 0.)
+await showCustomMessageBox({}," ", await getDataFromEndpoint ("cd " + variables.pwd + " && " + variables.textFromTheTerminalImput + " && pwd" , "/test" ), 0, 0.)
 }
 async function quickButton1(A_GuiControl)
 {
