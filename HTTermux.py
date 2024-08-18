@@ -21,7 +21,7 @@ def LoopParseFunc(var, delimiter1="", delimiter2=""):
         # Split the string using the constructed pattern
         items = re.split(pattern, var)
     return items
-
+  
 def StrReplace(originalString, find, replaceWith):
     # Use the replace method to replace occurrences of 'find' with 'replaceWith'
     return originalString.replace(find, replaceWith)
@@ -67,50 +67,25 @@ def command():
 @app.route('/open', methods=['POST'])
 def open():
     variables['fileName'] = request.get_json()
-
-    # Check if the file exists
-    if not os.path.exists(variables['fileName']):
-        return f"Error: File {variables['fileName']} does not exist", 404
-
-    try:
-        variables['data'] = RunCMD(f"cat {variables['fileName']}")
-    except Exception as e:
-        print(f"Error during open: {e}")
-        return str(e), 500
-
+    variables['data'] = RunCMD("cat " + variables['fileName'])
     return variables['data']
-
 @app.route('/save', methods=['POST'])
 def save():
     variables['data'] = request.get_json()
     variables['dataOut'] = ""
     items = LoopParseFunc(variables['data'], "\n", "\r")
     for A_Index1, A_LoopField1 in enumerate(items, start=1):
-        if A_Index1 == 1:
-            variables['fileName'] = A_LoopField1
+        variables['A_Index1'] = A_Index1
+        variables['A_LoopField1'] = A_LoopField1
+        if (variables['A_Index1'] == 1):
+            variables['fileName'] = variables['A_LoopField1']
         else:
-            variables['dataOut'] += A_LoopField1 + "\n"
-
-    # Escaping quotes
-    variables['dataOut'] = variables['dataOut'].replace('"', '\\"')
-
-    # Trim last newline character
+            variables['dataOut'] += variables['A_LoopField1'] + "\n"
+    variables['dataOut'] = StrReplace(variables['dataOut'] , Chr(34), Chr(92) + Chr(34))
     variables['dataOut'] = StringTrimRight(variables['dataOut'], 1)
-
-    # Check if the file exists before removing it
-    if os.path.exists(variables['fileName']):
-        RunCMD(f"rm {variables['fileName']}")
-
-    # Simplified printf command
-    try:
-        command = f'printf "%s" "{variables["dataOut"]}" > {variables["fileName"]}'
-        RunCMD(command)
-    except Exception as e:
-        print(f"Error during save: {e}")
-        return str(e), 500
-
+    RunCMD("rm " + variables['fileName'])
+    RunCMD("printf " + Chr(34) + "%s" + Chr(34) + " " + Chr(34) + variables['dataOut'] + Chr(34) + " > " + variables['fileName'])
     return "done"
-
 
 
 @app.errorhandler(404)
