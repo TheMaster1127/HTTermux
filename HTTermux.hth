@@ -48,14 +48,14 @@ terminalOutPutY := IDEh + 20 + 50
 Gui 2: Add, Edit, x10 y%terminalOutPutY% h140 w%IDEw% bg121212 cffffff vterminalOutPut
 GuiControl 2: Disable, terminalOutPut
 terminalInputY := IDEh + 20 + 50 + 150
-terminalInputW := IDEw - 50 - 40
+terminalInputW := IDEw - 50 - 50
 Gui 2: Font, s15
 Gui 2: Add, Button, x10 y%terminalInputY% h40 w40 gTabKey, Tab
-Gui 2: Add, Edit, x50 y%terminalInputY% h40 w%terminalInputW% bg121212 cffffff gterminalInputInput vterminalInput
+Gui 2: Add, Edit, x60 y%terminalInputY% h40 w%terminalInputW% bg121212 cffffff gterminalInputInput vterminalInput
 
-terminalSend := terminalInputW + 20
+terminalSendX := terminalInputW + 20 + 50
 Gui 2: Font, s12
-Gui 2: Add, Button, x%terminalSend% y%terminalInputY% h45 w45 gterminalSend, Send
+Gui 2: Add, Button, x%terminalSendX% y%terminalInputY% h45 w45 gterminalSend, Send
 saveButtonAllow := 0
 pwd := Trim(getDataFromEndpoint("pwd", "/command"))
 

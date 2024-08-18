@@ -920,7 +920,7 @@ Gui2terminalOutPut.style.fontFamily = ", sans-serif"; // Specify your desired fo
 Gui2.appendChild(Gui2terminalOutPut);
 GuiControl("disable", "Gui2terminalOutPut");
 variables.terminalInputY = variables.IDEh + 20 + 50 + 150
-variables.terminalInputW = variables.IDEw - 50 - 40
+variables.terminalInputW = variables.IDEw - 50 - 50
 Gui2Button5 = document.createElement("button");
 Gui2Button5.id = "Gui2" + "Button" + "5"; // Set ID for referencing
 Gui2Button5.textContent = "Tab";
@@ -948,7 +948,7 @@ Gui2terminalInput.placeholder = "";
 Gui2terminalInput.style.fontSize = "15px"; // Set font size
 Gui2terminalInput.style.resize = "none"; // Disable resizing
 Gui2terminalInput.style.position = "absolute"; // Set position to absolute
-Gui2terminalInput.style.left = "50px"; // Set initial x position
+Gui2terminalInput.style.left = "60px"; // Set initial x position
 Gui2terminalInput.style.top = "" + variables.terminalInputY + "px"; // Set initial y position
 Gui2terminalInput.style.width = "" + variables.terminalInputW + "px"; // Set width
 Gui2terminalInput.style.height = "40px"; // Set height
@@ -963,13 +963,13 @@ A_GuiControl = Gui2terminalInput.value
   terminalInputInput(A_GuiControl);
 });
 Gui2.appendChild(Gui2terminalInput);
-variables.terminalSend = variables.terminalInputW + 20
+variables.terminalSendX = variables.terminalInputW + 20 + 50
 Gui2Button6 = document.createElement("button");
 Gui2Button6.id = "Gui2" + "Button" + "6"; // Set ID for referencing
 Gui2Button6.textContent = "Send";
 Gui2Button6.style.fontSize = "12px"; // Set font size
 Gui2Button6.style.position = "absolute"; // Set position to absolute
-Gui2Button6.style.left = "" + variables.terminalSend + "px"; // Set initial x position
+Gui2Button6.style.left = "" + variables.terminalSendX + "px"; // Set initial x position
 Gui2Button6.style.top = "" + variables.terminalInputY + "px"; // Set initial y position
 Gui2Button6.style.width = "45px"; // Set width
 Gui2Button6.style.height = "45px"; // Set height
