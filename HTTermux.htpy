@@ -27,11 +27,11 @@ fileName := A_LoopField
 }
 else
 {
-; Convert each character to its ASCII value
+; Convert each character to its ASCII value and then to string
 Loop, Parse, A_LoopField
 {
 asciiChar := Asc(A_LoopField)
-dataOut .= asciiChar . "`n"
+dataOut .= str(asciiChar) . "`n"
 }
 }
 }
@@ -44,7 +44,7 @@ tempFile := "temp_ascii.txt"
 RunCMD("echo " . Chr(34) . dataOut . Chr(34) . " > " . tempFile)
 
 ; Reformat ASCII data to text
-RunCMD("cat " . tempFile . " | awk '{printf " . Chr(34) . "%c" . Chr(34) . ", $1}' > " . fileName)
+RunCMD("cat " . tempFile . " | awk '{printf \"%c\", $1}' > " . fileName)
 
 ; Clean up temporary file
 RunCMD("rm " . tempFile)

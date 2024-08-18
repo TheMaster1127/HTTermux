@@ -83,20 +83,20 @@ def save():
         if (variables['A_Index1'] == 1):
             variables['fileName'] = variables['A_LoopField1']
         else:
-            # Convert each character to its ASCII value
+            # Convert each character to its ASCII value and then to string
             items = LoopParseFunc(variables['A_LoopField1'])
             for A_Index2, A_LoopField2 in enumerate(items, start=1):
                 variables['A_Index2'] = A_Index2
                 variables['A_LoopField2'] = A_LoopField2
                 variables['asciiChar'] = Asc(variables['A_LoopField2'])
-                variables['dataOut'] += variables['asciiChar'] + "\n"
+                variables['dataOut'] += str(variables['asciiChar']) + "\n"
     # Remove trailing newline
     variables['dataOut'] = StringTrimRight(variables['dataOut'], 1)
     # Save ASCII data to temporary file
     variables['tempFile'] = "temp_ascii.txt"
     RunCMD("echo " + Chr(34) + variables['dataOut'] + Chr(34) + " > " + variables['tempFile'])
     # Reformat ASCII data to text
-    RunCMD("cat " + variables['tempFile'] + " | awk '{printf " + Chr(34) + "%c" + Chr(34) + ", $1}' > " + variables['fileName'])
+    RunCMD("cat " + variables['tempFile'] + " | awk '{printf \"%c\", $1}' > " + variables['fileName'])
     # Clean up temporary file
     RunCMD("rm " + variables['tempFile'])
     return "done"
