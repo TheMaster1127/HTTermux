@@ -81,7 +81,7 @@ def open():
         variables['A_LoopField1'] = A_LoopField1
         if (variables['A_Index1'] == 1):
             variables['fileName'] = Trim(variables['A_LoopField1'])
-    variables['data'] = FileRead(Chr(34) + variables['fileName'] + Chr(34))
+    variables['data'] = FileRead(Chr(34) + str(variables['fileName']) + Chr(34))
     print(variables['data'])
     variables['data'] = str(variables['data'])
     return variables['data']
