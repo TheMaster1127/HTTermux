@@ -29,8 +29,11 @@ dataOut .= A_LoopField . "`n"
 
 }
 
+dataOut := StrReplace(dataOut, Chr(34), Chr(92) . Chr(34))
+
 StringTrimRight, dataOut, dataOut, 1
 RunCMD("rm " . fileName)
-FileAppend, dataOut, %fileName%
+RunCMD("echo " . Chr(34) . dataOut . Chr(34) . "| tee " . fileName)
+
 return "done"
 }

@@ -21,7 +21,10 @@ def LoopParseFunc(var, delimiter1="", delimiter2=""):
         # Split the string using the constructed pattern
         items = re.split(pattern, var)
     return items
-
+  
+def StrReplace(originalString, find, replaceWith):
+    # Use the replace method to replace occurrences of 'find' with 'replaceWith'
+    return originalString.replace(find, replaceWith)
 def StringTrimRight(input, numChars):
     # Convert input to a string if it's not already a string
     if not isinstance(input, str):
@@ -31,19 +34,19 @@ def StringTrimRight(input, numChars):
         return input[:-numChars]  # Trim the string from the right
     else:
         return input  # Return input unchanged if numChars is larger than string length
-import os
-def FileAppend(content, path):
-    # Remove any extra double quotes around the path
-    path = path.strip('"')
-    # Ensure the path is absolute
-    if not os.path.isabs(path):
-        path = os.path.join(os.getcwd(), path)
-    try:
-        with open(path, 'a', encoding='utf-8') as file:  # 'a' mode for append
-            file.write(content)
-        return True
-    except Exception as e:
-        return False
+def Chr(number):
+    # Check if the number is None
+    if number is None:
+        # Return an empty string
+        return ""
+    # Check if the number is within the valid Unicode range
+    if 0 <= number <= 0x10FFFF:
+        # Convert the number to a character using chr()
+        return chr(number)
+    else:
+        # Return an empty string for invalid numbers
+        return ""
+
 import subprocess
 def RunCMD(command):
     try:
@@ -78,9 +81,10 @@ def save():
             variables['fileName'] = variables['A_LoopField1']
         else:
             variables['dataOut'] += variables['A_LoopField1'] + "\n"
+    variables['dataOut'] = StrReplace(variables['dataOut'] , Chr(34), Chr(92) + Chr(34))
     variables['dataOut'] = StringTrimRight(variables['dataOut'], 1)
     RunCMD("rm " + variables['fileName'])
-    FileAppend("dataOut", "" + variables['fileName'] + "")
+    RunCMD("echo " + Chr(34) + variables['dataOut'] + Chr(34) + "| tee " + variables['fileName'])
     return "done"
 
 
