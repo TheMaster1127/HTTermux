@@ -77,12 +77,12 @@ gosub, saveButton
 if (Trim(textFromTheTerminalImput) != "")
 {
 textFromTheTerminalImput := Trim(textFromTheTerminalImput)
-MsgBox, % "cd path/path && " . textFromTheTerminalImput . " && pwd"
+;MsgBox, % "cd path/path && " . textFromTheTerminalImput . " && pwd"
 
 if (SubStr(textFromTheTerminalImput, 1, 4) = "htt ")
 {
 StringTrimLeft, textFromTheTerminalImput, textFromTheTerminalImput, 4
-terminalOutPutIDE := getDataFromEndpoint(pwd . "/" . Trim(textFromTheTerminalImput) , "/open")
+terminalOutPutIDE := getDataFromEndpoint(pwd . "/" . Trim(textFromTheTerminalImput), "/open")
 terminalOutPutTemp := "Done`n" . pwd . ">"
 textFromTheTerminalImputDsplayPath := pwd . "/" . Trim(textFromTheTerminalImput)
 GuiControl 2: Text, terminalOutPut, %terminalOutPutTemp%

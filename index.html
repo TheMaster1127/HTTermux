@@ -984,7 +984,7 @@ await saveButton()
 if (( await Trim (variables.textFromTheTerminalImput)  != "" ))
 {
 variables.textFromTheTerminalImput = await Trim (variables.textFromTheTerminalImput )
-await showCustomMessageBox({}," ", "cd path/path && " + variables.textFromTheTerminalImput + " && pwd", 0, 0.)
+//MsgBox, % "cd path/path && " . textFromTheTerminalImput . " && pwd"
 if (( await SubStr (variables.textFromTheTerminalImput , 1 , 4) == "htt " ))
 {
 variables.textFromTheTerminalImput = StringTrimLeft(variables.textFromTheTerminalImput, 4)

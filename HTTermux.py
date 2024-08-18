@@ -46,8 +46,9 @@ def test():
 def open():
     variables['fileName'] = request.get_json()
     print(variables['fileName'])
-    variables['data'] = FileRead("" + variables['fileName'] + "")
+    variables['data'] = FileRead(variables['fileName'])
     print(variables['data'])
+    variables['data'] = str(variables['data'])
     return variables['data']
 
 

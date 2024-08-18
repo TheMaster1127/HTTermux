@@ -10,7 +10,8 @@ return data
 endpoint, fileName, open
 {
 MsgBox, % fileName
-FileRead, data, %fileName%
+data := FileRead(fileName)
 MsgBox, % data
+data := str(data)
 return data
 }
