@@ -975,7 +975,7 @@ async function saveButton(A_GuiControl)
 {
 if (( variables.saveButtonAllow == 1 ))
 {
-await showCustomMessageBox({}," ", variables.ideText, 0, 0.)
+//MsgBox, % ideText
 await getDataFromEndpoint( variables.textFromTheTerminalImputDsplayPath + "\n" + variables.ideText , "/save" )
 }
 }
