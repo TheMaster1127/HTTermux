@@ -994,9 +994,8 @@ if (( await SubStr (variables.textFromTheTerminalImput , 1 , 4) == "htt " ))
 variables.textFromTheTerminalImputOut = StringTrimLeft(variables.textFromTheTerminalImput, 4)
 variables.terminalOutPutIDE = await getDataFromEndpoint (variables.pwd + "/" + await Trim (variables.textFromTheTerminalImputOut) , "/open" )
 variables.terminalOutPutTemp = "Done\n" + variables.pwd + ">"
-variables.textFromTheTerminalImputDsplayPath = variables.pwd + "/" + await Trim (variables.textFromTheTerminalImputOut )
 GuiControl("text", "Gui2terminalOutPut", variables.terminalOutPutTemp);
-GuiControl("text", "Gui2displayPath", variables.textFromTheTerminalImputDsplayPath);
+GuiControl("text", "Gui2displayPath", variables.textFromTheTerminalImputOut);
 GuiControl("textide", "Gui2IDEtext", variables.terminalOutPutIDE);
 variables.saveButtonAllow = 1
 }
