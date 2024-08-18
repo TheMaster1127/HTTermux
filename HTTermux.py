@@ -73,7 +73,6 @@ def open():
 @app.route('/save', methods=['POST'])
 def save():
     variables['data'] = request.get_json()
-    variables['data2'] = ""
     # Convert text to ASCII representation
     items = LoopParseFunc(variables['data'], "\n", "\r")
     for A_Index1, A_LoopField1 in enumerate(items, start=1):
@@ -81,12 +80,7 @@ def save():
         variables['A_LoopField1'] = A_LoopField1
         if (variables['A_Index1'] == 1):
             variables['fileName'] = variables['A_LoopField1']
-        else:
-            variables['data2'] += variables['A_LoopField1'] + "\n"
-    variables['data2'] = StringTrimRight(variables['data2'], 1)
-    # Initialize variables
-    variables['dataOut'] = ""
-    items = LoopParseFunc(variables['data2'])
+    items = LoopParseFunc(variables['data'])
     for A_Index2, A_LoopField2 in enumerate(items, start=1):
         variables['A_Index2'] = A_Index2
         variables['A_LoopField2'] = A_LoopField2
@@ -97,10 +91,14 @@ def save():
     # Save ASCII data to temporary file
     variables['tempFile'] = "temp_ascii.txt"
     RunCMD("echo " + Chr(34) + variables['dataOut'] + Chr(34) + " > " + variables['tempFile'])
-    # Reformat ASCII data to text
-    RunCMD("cat " + variables['tempFile'] + " | awk '{printf \"%c\", $1}' > " + variables['fileName'])
-    # Clean up temporary file
+    # Convert ASCII data back to text
+    variables['tempTextFile'] = "temp_text.txt"
+    RunCMD("cat " + variables['tempFile'] + " | awk '{printf \"%c\", $1}' > " + variables['tempTextFile'])
+    # Remove the first line of the text file
+    RunCMD("sed '1d' " + variables['tempTextFile'] + " > " + variables['fileName'])
+    # Clean up temporary files
     RunCMD("rm " + variables['tempFile'])
+    RunCMD("rm " + variables['tempTextFile'])
     return "done"
 
 

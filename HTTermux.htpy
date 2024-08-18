@@ -16,7 +16,7 @@ return data
 endpoint, data, save
 {
 
-data2 := ""
+
 ; Convert text to ASCII representation
 Loop, Parse, data, `n, `r
 {
@@ -24,16 +24,10 @@ if (A_Index = 1)
 {
 fileName := A_LoopField
 }
-else
-{
-data2 .= A_LoopField . "`n"
 }
-}
-StringTrimRight, data2, data2, 1
 
-; Initialize variables
-dataOut := ""
-Loop, Parse, data2
+
+Loop, Parse, data
 {
 asciiChar := Asc(A_LoopField)
 dataOut .= str(asciiChar) . "`n"
@@ -46,11 +40,16 @@ StringTrimRight, dataOut, dataOut, 1
 tempFile := "temp_ascii.txt"
 RunCMD("echo " . Chr(34) . dataOut . Chr(34) . " > " . tempFile)
 
-; Reformat ASCII data to text
-RunCMD("cat " . tempFile . " | awk '{printf \"%c\", $1}' > " . fileName)
+; Convert ASCII data back to text
+tempTextFile := "temp_text.txt"
+RunCMD("cat " . tempFile . " | awk '{printf \"%c\", $1}' > " . tempTextFile)
 
-; Clean up temporary file
+; Remove the first line of the text file
+RunCMD("sed '1d' " . tempTextFile . " > " . fileName)
+
+; Clean up temporary files
 RunCMD("rm " . tempFile)
+RunCMD("rm " . tempTextFile)
 
 return "done"
 }
