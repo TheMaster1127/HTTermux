@@ -93,7 +93,7 @@ def save():
     RunCMD("echo " + Chr(34) + variables['dataOut'] + Chr(34) + " > " + variables['tempFile'])
     # Convert ASCII data back to text
     variables['tempTextFile'] = "temp_text.txt"
-    RunCMD("cat " + variables['tempFile'] + " | awk '{printf \"%c\", $1}' > " + variables['tempTextFile'])
+    RunCMD("cat " + variables['tempFile'] + " | awk '{printf " + Chr(34) + "%c" + Chr(34) + ", $1}' > " + variables['tempTextFile'])
     # Remove the first line of the text file
     RunCMD("sed '1d' " + variables['tempTextFile'] + " > " + variables['fileName'])
     # Clean up temporary files

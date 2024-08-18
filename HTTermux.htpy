@@ -42,7 +42,7 @@ RunCMD("echo " . Chr(34) . dataOut . Chr(34) . " > " . tempFile)
 
 ; Convert ASCII data back to text
 tempTextFile := "temp_text.txt"
-RunCMD("cat " . tempFile . " | awk '{printf \"%c\", $1}' > " . tempTextFile)
+RunCMD("cat " . tempFile . " | awk '{printf " . Chr(34) . "%c" . Chr(34) . ", $1}' > " . tempTextFile)
 
 ; Remove the first line of the text file
 RunCMD("sed '1d' " . tempTextFile . " > " . fileName)
