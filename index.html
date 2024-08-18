@@ -991,11 +991,11 @@ variables.textFromTheTerminalImput = await Trim (variables.textFromTheTerminalIm
 //MsgBox, % "cd path/path && " . textFromTheTerminalImput . " && pwd"
 if (( await SubStr (variables.textFromTheTerminalImput , 1 , 4) == "htt " ))
 {
-variables.textFromTheTerminalImput = StringTrimLeft(variables.textFromTheTerminalImput, 4)
-variables.terminalOutPutIDE = await getDataFromEndpoint (variables.pwd + "/" + await Trim (variables.textFromTheTerminalImput) , "/open" )
+variables.textFromTheTerminalImputOut = StringTrimLeft(variables.textFromTheTerminalImput, 4)
+variables.terminalOutPutIDE = await getDataFromEndpoint (variables.pwd + "/" + await Trim (variables.textFromTheTerminalImputOut) , "/open" )
 variables.terminalOutPutTemp = "Done\n" + variables.pwd + ">"
-variables.textFromTheTerminalImputDsplayPath = variables.pwd + "/" + await Trim (variables.textFromTheTerminalImput )
-variables.textFromTheTerminalImputDsplayPathDisplay = await Trim (variables.textFromTheTerminalImput )
+variables.textFromTheTerminalImputDsplayPath = variables.pwd + "/" + await Trim (variables.textFromTheTerminalImputOut )
+variables.textFromTheTerminalImputDsplayPathDisplay = await Trim (variables.textFromTheTerminalImputOut )
 GuiControl("text", "Gui2terminalOutPut", variables.terminalOutPutTemp);
 GuiControl("text", "Gui2displayPath", variables.textFromTheTerminalImputDsplayPathDisplay);
 GuiControl("textide", "Gui2IDEtext", variables.terminalOutPutIDE);
