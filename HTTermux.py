@@ -84,7 +84,7 @@ def save():
     variables['dataOut'] = StrReplace(variables['dataOut'] , Chr(34), Chr(92) + Chr(34))
     variables['dataOut'] = StringTrimRight(variables['dataOut'], 1)
     RunCMD("rm " + variables['fileName'])
-    RunCMD("printf '%s\n' " + Chr(34) + variables['dataOut'] + Chr(34) + " > " + variables['fileName'])
+    RunCMD("printf " + Chr(34) + "%s" + Chr(34) + " " + Chr(34) + variables['dataOut'] + Chr(34) + " > " + variables['fileName'])
     return "done"
 
 

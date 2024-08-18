@@ -33,7 +33,8 @@ dataOut := StrReplace(dataOut, Chr(34), Chr(92) . Chr(34))
 
 StringTrimRight, dataOut, dataOut, 1
 RunCMD("rm " . fileName)
-RunCMD("printf '%s\n' " . Chr(34) . dataOut . Chr(34) . " > " . fileName)
+RunCMD("printf " . Chr(34) . "%s" . Chr(34) . " " . Chr(34) . dataOut . Chr(34) . " > " . fileName)
+
 
 return "done"
 }
