@@ -87,7 +87,7 @@ terminalOutPutTemp := "Done`n" . pwd . ">"
 textFromTheTerminalImputDsplayPath := pwd . "/" . Trim(textFromTheTerminalImput)
 GuiControl 2: Text, terminalOutPut, %terminalOutPutTemp%
 GuiControl 2: Text, displayPath, %textFromTheTerminalImputDsplayPath%
-GuiControl 2: Text, IDEtext, %terminalOutPutIDE%
+GuiControl 2: textide, IDEtext, %terminalOutPutIDE%
 
 }
 else

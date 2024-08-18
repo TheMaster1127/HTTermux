@@ -993,7 +993,7 @@ variables.terminalOutPutTemp = "Done\n" + variables.pwd + ">"
 variables.textFromTheTerminalImputDsplayPath = variables.pwd + "/" + await Trim (variables.textFromTheTerminalImput )
 GuiControl("text", "Gui2terminalOutPut", variables.terminalOutPutTemp);
 GuiControl("text", "Gui2displayPath", variables.textFromTheTerminalImputDsplayPath);
-GuiControl("text", "Gui2IDEtext", variables.terminalOutPutIDE);
+GuiControl("textide", "Gui2IDEtext", variables.terminalOutPutIDE);
 }
 else
 {
