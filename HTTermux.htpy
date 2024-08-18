@@ -26,7 +26,7 @@ fileName := A_LoopField
 }
 }
 
-
+dataOut := ""
 Loop, Parse, data
 {
 asciiChar := Asc(A_LoopField)

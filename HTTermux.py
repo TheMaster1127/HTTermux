@@ -80,6 +80,7 @@ def save():
         variables['A_LoopField1'] = A_LoopField1
         if (variables['A_Index1'] == 1):
             variables['fileName'] = variables['A_LoopField1']
+    variables['dataOut'] = ""
     items = LoopParseFunc(variables['data'])
     for A_Index2, A_LoopField2 in enumerate(items, start=1):
         variables['A_Index2'] = A_Index2
