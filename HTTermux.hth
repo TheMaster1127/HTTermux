@@ -23,10 +23,10 @@ if (isMobileDevice())
 Gui, Font, s15
 }
 
-Gui, Font, s16
+
 displayPathW := boardW - 95
 Gui 2: Add, Text, x10 y10 h35 w%displayPathW% vdisplayPath, displayPath/displayPathW.somting
-Gui, Font, s15
+
 saveButtonX := boardW - 70
 Gui 2: Add, Button, x%saveButtonX% y10 h35 w60 gsaveButton, Save
 
@@ -70,6 +70,7 @@ textFromTheTerminalImput := A_GuiControl
 Return
 
 terminalSend:
+gosub, saveButton
 MsgBox, % textFromTheTerminalImput
 Return
 

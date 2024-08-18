@@ -669,14 +669,6 @@ var Gui2 = {}
 Gui2 = document.createElement("div")
 Gui2.id = "Gui2"
 
-var Gui1 = {}
-Gui1 = document.createElement("div")
-Gui1.id = "Gui1"
-
-var Gui2 = {}
-Gui2 = document.createElement("div")
-Gui2.id = "Gui2"
-
 
 
 
@@ -738,7 +730,7 @@ Gui2displayPath = document.createElement("div");
 Gui2displayPath.id = "Gui2" + "displayPath"; // Set ID for referencing
 Gui2displayPath.textContent = "displayPath/displayPathW.somting";
 Gui2displayPath.style.color = "#black"
-Gui2displayPath.style.fontSize = "16px"; // Set font size
+Gui2displayPath.style.fontSize = "15px"; // Set font size
 Gui2displayPath.style.position = "absolute"; // Set position to absolute
 Gui2displayPath.style.left = "10px"; // Set initial x position
 Gui2displayPath.style.top = "10px"; // Set initial y position
@@ -915,6 +907,7 @@ variables.textFromTheTerminalImput = A_GuiControl
 }
 async function terminalSend(A_GuiControl)
 {
+await saveButton()
 await showCustomMessageBox({}," ", variables.textFromTheTerminalImput, 0, 0.)
 }
 async function quickButton1(A_GuiControl)
