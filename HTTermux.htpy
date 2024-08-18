@@ -15,8 +15,6 @@ return data
 
 endpoint, data, save
 {
-; Initialize variables
-dataOut := ""
 
 ; Convert text to ASCII representation
 Loop, Parse, data, `n, `r
@@ -25,16 +23,15 @@ if (A_Index = 1)
 {
 fileName := A_LoopField
 }
-else
-{
-; Convert each character to its ASCII value and then to string
-Loop, Parse, A_LoopField
+}
+; Initialize variables
+dataOut := ""
+
+
+Loop, Parse, data
 {
 asciiChar := Asc(A_LoopField)
 dataOut .= str(asciiChar) . "`n"
-}
-dataOut .= "10`n"
-}
 }
 
 ; Remove trailing newline

@@ -73,8 +73,6 @@ def open():
 @app.route('/save', methods=['POST'])
 def save():
     variables['data'] = request.get_json()
-    # Initialize variables
-    variables['dataOut'] = ""
     # Convert text to ASCII representation
     items = LoopParseFunc(variables['data'], "\n", "\r")
     for A_Index1, A_LoopField1 in enumerate(items, start=1):
@@ -82,15 +80,14 @@ def save():
         variables['A_LoopField1'] = A_LoopField1
         if (variables['A_Index1'] == 1):
             variables['fileName'] = variables['A_LoopField1']
-        else:
-            # Convert each character to its ASCII value and then to string
-            items = LoopParseFunc(variables['A_LoopField1'])
-            for A_Index2, A_LoopField2 in enumerate(items, start=1):
-                variables['A_Index2'] = A_Index2
-                variables['A_LoopField2'] = A_LoopField2
-                variables['asciiChar'] = Asc(variables['A_LoopField2'])
-                variables['dataOut'] += str(variables['asciiChar']) + "\n"
-            variables['dataOut'] += "10\n"
+    # Initialize variables
+    variables['dataOut'] = ""
+    items = LoopParseFunc(variables['data'])
+    for A_Index2, A_LoopField2 in enumerate(items, start=1):
+        variables['A_Index2'] = A_Index2
+        variables['A_LoopField2'] = A_LoopField2
+        variables['asciiChar'] = Asc(variables['A_LoopField2'])
+        variables['dataOut'] += str(variables['asciiChar']) + "\n"
     # Remove trailing newline
     variables['dataOut'] = StringTrimRight(variables['dataOut'], 1)
     # Save ASCII data to temporary file
