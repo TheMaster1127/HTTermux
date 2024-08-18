@@ -26,34 +26,6 @@ def Trim(inputString):
     if inputString is None:
         return ""
     return inputString.strip()
-def Chr(number):
-    # Check if the number is None
-    if number is None:
-        # Return an empty string
-        return ""
-    # Check if the number is within the valid Unicode range
-    if 0 <= number <= 0x10FFFF:
-        # Convert the number to a character using chr()
-        return chr(number)
-    else:
-        # Return an empty string for invalid numbers
-        return ""
-
-import os
-def FileRead(path):
-    # Remove any extra double quotes around the path
-    path = path.strip('"')
-    # Ensure the path is absolute
-    if not os.path.isabs(path):
-        path = os.path.join(os.getcwd(), path)
-    try:
-        with open(path, 'r', encoding='utf-8', errors='ignore') as file:
-            content = file.read()
-        return content
-    except FileNotFoundError:
-        return ''
-    except Exception as e:
-        return None
 import subprocess
 def RunCMD(command):
     try:
@@ -81,7 +53,7 @@ def open():
         variables['A_LoopField1'] = A_LoopField1
         if (variables['A_Index1'] == 1):
             variables['fileName'] = Trim(variables['A_LoopField1'])
-    variables['data'] = FileRead(Chr(34) + str(variables['fileName']) + Chr(34))
+    variables['data'] = RunCMD("cat " + variables['fileName'])
     print(variables['data'])
     variables['data'] = str(variables['data'])
     return variables['data']

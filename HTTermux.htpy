@@ -17,7 +17,7 @@ if (A_Index = 1)
 fileName := Trim(A_LoopField)
 }
 }
-data := FileRead(Chr(34) . str(fileName) . Chr(34))
+data := RunCMD("cat " . fileName)
 MsgBox, % data
 data := str(data)
 return data
