@@ -21,10 +21,7 @@ def LoopParseFunc(var, delimiter1="", delimiter2=""):
         # Split the string using the constructed pattern
         items = re.split(pattern, var)
     return items
-  
-def StrReplace(originalString, find, replaceWith):
-    # Use the replace method to replace occurrences of 'find' with 'replaceWith'
-    return originalString.replace(find, replaceWith)
+
 def StringTrimRight(input, numChars):
     # Convert input to a string if it's not already a string
     if not isinstance(input, str):
@@ -58,6 +55,10 @@ def RunCMD(command):
     except Exception as e:
         print(f"An unexpected error occurred: {e}")
         return ""
+def Asc(char):
+    if char is None or len(char) == 0:
+        return None
+    return ord(char[0])
 
 @app.route('/command', methods=['POST'])
 def command():
@@ -72,19 +73,32 @@ def open():
 @app.route('/save', methods=['POST'])
 def save():
     variables['data'] = request.get_json()
+    # Initialize variables
     variables['dataOut'] = ""
+    # Convert text to ASCII representation
     items = LoopParseFunc(variables['data'], "\n", "\r")
     for A_Index1, A_LoopField1 in enumerate(items, start=1):
         variables['A_Index1'] = A_Index1
         variables['A_LoopField1'] = A_LoopField1
         if (variables['A_Index1'] == 1):
-            variables['fileName'] = variables['A_LoopField1']
+            variables['fileName'] = variables['A_LoopField1'] ; variables['First'] variables['line'] variables['is'] variables['the'] variables['filename']
         else:
-            variables['dataOut'] += variables['A_LoopField1'] + "\n"
-    variables['dataOut'] = StrReplace(variables['dataOut'] , Chr(34), Chr(92) + Chr(34))
+            # Convert each character to its ASCII value
+            items = LoopParseFunc(variables['A_LoopField1'])
+            for A_Index2, A_LoopField2 in enumerate(items, start=1):
+                variables['A_Index2'] = A_Index2
+                variables['A_LoopField2'] = A_LoopField2
+                variables['asciiChar'] = Asc(variables['A_LoopField2'])
+                variables['dataOut'] += variables['asciiChar'] + "\n"
+    # Remove trailing newline
     variables['dataOut'] = StringTrimRight(variables['dataOut'], 1)
-    RunCMD("rm " + variables['fileName'])
-    RunCMD("printf " + Chr(34) + "%s" + Chr(34) + " " + Chr(34) + variables['dataOut'] + Chr(34) + " > " + variables['fileName'])
+    # Save ASCII data to temporary file
+    variables['tempFile'] = "temp_ascii.txt"
+    RunCMD("echo " + Chr(34) + variables['dataOut'] + Chr(34) + " > " + variables['tempFile'])
+    # Reformat ASCII data to text
+    RunCMD("cat " + variables['tempFile'] + " | awk '{printf " + Chr(34) + "%c" + Chr(34) + ", $1}' > " + variables['fileName'])
+    # Clean up temporary file
+    RunCMD("rm " + variables['tempFile'])
     return "done"
 
 

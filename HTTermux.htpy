@@ -15,26 +15,39 @@ return data
 
 endpoint, data, save
 {
+; Initialize variables
 dataOut := ""
+
+; Convert text to ASCII representation
 Loop, Parse, data, `n, `r
 {
 if (A_Index = 1)
 {
-fileName := A_LoopField
+fileName := A_LoopField  ; First line is the filename
 }
 else
 {
-dataOut .= A_LoopField . "`n"
+; Convert each character to its ASCII value
+Loop, Parse, A_LoopField
+{
+asciiChar := Asc(A_LoopField)
+dataOut .= asciiChar . "`n"
+}
+}
 }
 
-}
-
-dataOut := StrReplace(dataOut, Chr(34), Chr(92) . Chr(34))
-
+; Remove trailing newline
 StringTrimRight, dataOut, dataOut, 1
-RunCMD("rm " . fileName)
-RunCMD("printf " . Chr(34) . "%s" . Chr(34) . " " . Chr(34) . dataOut . Chr(34) . " > " . fileName)
 
+; Save ASCII data to temporary file
+tempFile := "temp_ascii.txt"
+RunCMD("echo " . Chr(34) . dataOut . Chr(34) . " > " . tempFile)
+
+; Reformat ASCII data to text
+RunCMD("cat " . tempFile . " | awk '{printf " . Chr(34) . "%c" . Chr(34) . ", $1}' > " . fileName)
+
+; Clean up temporary file
+RunCMD("rm " . tempFile)
 
 return "done"
 }
