@@ -348,6 +348,15 @@
       }
 
 
+      function Trim(inputString) {
+        // Check if inputString is null or undefined
+        if (inputString == null) {
+          return ""; // Return an empty string if inputString is null or undefined
+        }
+        return inputString.replace(/^\s+|\s+$/g, ""); // Removes leading and trailing whitespace
+      }
+
+
       function isMobileDevice() {
         return /Mobi|Android/i.test(navigator.userAgent);
       }
@@ -417,6 +426,37 @@
             updateRectangleColor(id, param1);
             redrawCanvas(); // Redraw the canvas with updated rectangles
           }
+        }
+      }
+
+
+      async function getDataFromEndpoint(data, endpoint) {
+        // Convert data to JSON string
+        const requestData = JSON.stringify(data);
+
+        // Set up fetch request options
+        const requestOptions = {
+          method: "POST", // or 'GET' depending on your server's requirements
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: requestData,
+        };
+
+        // Fetch data from the specified endpoint
+        const response = await fetch(endpoint, requestOptions);
+
+        // Check if response is successful
+        if (!response.ok) {
+          throw new Error(`Failed to fetch data from ${endpoint}. Status: ${response.status}`);
+        }
+
+        // Parse response data based on Content-Type header
+        const contentType = response.headers.get("content-type");
+        if (contentType && contentType.includes("application/json")) {
+          return response.json(); // Parse JSON response
+        } else {
+          return response.text(); // Parse plain text response
         }
       }
 
@@ -908,7 +948,12 @@ variables.textFromTheTerminalImput = A_GuiControl
 async function terminalSend(A_GuiControl)
 {
 await saveButton()
-await showCustomMessageBox({}," ", variables.textFromTheTerminalImput, 0, 0.)
+if (( await Trim (variables.textFromTheTerminalImput)  != "" ))
+{
+variables.textFromTheTerminalImput = await Trim (variables.textFromTheTerminalImput )
+await showCustomMessageBox({}," ", "cd path/path && " + variables.textFromTheTerminalImput + " && pwd", 0, 0.)
+}
+await showCustomMessageBox({}," ", await getDataFromEndpoint ("cd path/path && " + variables.textFromTheTerminalImput + " && pwd" , "/test" ), 0, 0.)
 }
 async function quickButton1(A_GuiControl)
 {

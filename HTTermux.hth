@@ -77,7 +77,7 @@ if (Trim(textFromTheTerminalImput) != "")
 textFromTheTerminalImput := Trim(textFromTheTerminalImput)
 MsgBox, % "cd path/path && " . textFromTheTerminalImput . " && pwd"
 }
-MsgBox, % getDataFromEndpoint"cd path/path && " . textFromTheTerminalImput . " && pwd", "/test")
+MsgBox, % getDataFromEndpoint("cd path/path && " . textFromTheTerminalImput . " && pwd", "/test")
 Return
 
 quickButton1:
