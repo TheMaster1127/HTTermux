@@ -33,6 +33,7 @@ Loop, Parse, A_LoopField
 asciiChar := Asc(A_LoopField)
 dataOut .= str(asciiChar) . "`n"
 }
+dataOut .= "10`n"
 }
 }
 

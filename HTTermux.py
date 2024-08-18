@@ -90,6 +90,7 @@ def save():
                 variables['A_LoopField2'] = A_LoopField2
                 variables['asciiChar'] = Asc(variables['A_LoopField2'])
                 variables['dataOut'] += str(variables['asciiChar']) + "\n"
+            variables['dataOut'] += "10\n"
     # Remove trailing newline
     variables['dataOut'] = StringTrimRight(variables['dataOut'], 1)
     # Save ASCII data to temporary file
