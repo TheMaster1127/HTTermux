@@ -74,13 +74,30 @@ Return
 
 terminalSend:
 gosub, saveButton
-
 if (Trim(textFromTheTerminalImput) != "")
 {
 textFromTheTerminalImput := Trim(textFromTheTerminalImput)
 MsgBox, % "cd path/path && " . textFromTheTerminalImput . " && pwd"
+
+if (SubStr(textFromTheTerminalImput, 1, 4) = "htt ")
+{
+StringTrimLeft, textFromTheTerminalImput, textFromTheTerminalImput, 4
+terminalOutPutIDE := getDataFromEndpoint(pwd . "/" . Trim(textFromTheTerminalImput) , "/open")
+terminalOutPutTemp := "Done`n" . pwd . ">"
+textFromTheTerminalImputDsplayPath := pwd . "/" . Trim(textFromTheTerminalImput)
+GuiControl 2: Text, terminalOutPut, %terminalOutPutTemp%
+GuiControl 2: Text, displayPath, %textFromTheTerminalImputDsplayPath%
+GuiControl 2: Text, IDEtext, %terminalOutPutIDE%
+
 }
-MsgBox, % getDataFromEndpoint("cd " . pwd . " && " . textFromTheTerminalImput . " && pwd", "/test")
+else
+{
+terminalOutPutTemp := getDataFromEndpoint("cd " . pwd . " && " . textFromTheTerminalImput . " && pwd", "/test") . "`n" . pwd . ">"
+GuiControl 2: Text, terminalOutPut, %terminalOutPutTemp%
+}
+
+
+}
 Return
 
 quickButton1:

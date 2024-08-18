@@ -348,6 +348,27 @@
       }
 
 
+      function SubStr(str, startPos, length) {
+        // If str is null or undefined, return an empty string
+        if (str === null || str === undefined) {
+          return "";
+        }
+
+        // If length is not provided or is blank, default to "all characters"
+        if (length === undefined || length === "") {
+          length = str.length - startPos + 1;
+        }
+
+        // If startPos is less than 1, adjust it to start from the end of the string
+        if (startPos < 1) {
+          startPos = str.length + startPos;
+        }
+
+        // Extract the substring based on startPos and length
+        return str.substr(startPos - 1, length);
+      }
+
+
       function Trim(inputString) {
         // Check if inputString is null or undefined
         if (inputString == null) {
@@ -355,6 +376,17 @@
         }
         return inputString.replace(/^\s+|\s+$/g, ""); // Removes leading and trailing whitespace
       }
+
+
+// Function to trim specified number of characters from the left side of a string
+function StringTrimLeft(input, numChars) {
+  if (typeof input === 'string' && typeof numChars === 'number' && numChars >= 0) {
+    return input.length > numChars ? input.substring(numChars) : '';
+  } else {
+    console.error("Invalid input provided.");
+    return input; // Return original input if trimming is not possible
+  }
+}
 
 
       function isMobileDevice() {
@@ -953,8 +985,22 @@ if (( await Trim (variables.textFromTheTerminalImput)  != "" ))
 {
 variables.textFromTheTerminalImput = await Trim (variables.textFromTheTerminalImput )
 await showCustomMessageBox({}," ", "cd path/path && " + variables.textFromTheTerminalImput + " && pwd", 0, 0.)
+if (( await SubStr (variables.textFromTheTerminalImput , 1 , 4) == "htt " ))
+{
+variables.textFromTheTerminalImput = StringTrimLeft(variables.textFromTheTerminalImput, 4)
+variables.terminalOutPutIDE = await getDataFromEndpoint (variables.pwd + "/" + await Trim (variables.textFromTheTerminalImput) , "/open" )
+variables.terminalOutPutTemp = "Done\n" + variables.pwd + ">"
+variables.textFromTheTerminalImputDsplayPath = variables.pwd + "/" + await Trim (variables.textFromTheTerminalImput )
+GuiControl("text", "Gui2terminalOutPut", variables.terminalOutPutTemp);
+GuiControl("text", "Gui2displayPath", variables.textFromTheTerminalImputDsplayPath);
+GuiControl("text", "Gui2IDEtext", variables.terminalOutPutIDE);
 }
-await showCustomMessageBox({}," ", await getDataFromEndpoint ("cd " + variables.pwd + " && " + variables.textFromTheTerminalImput + " && pwd" , "/test" ), 0, 0.)
+else
+{
+variables.terminalOutPutTemp = await getDataFromEndpoint ("cd " + variables.pwd + " && " + variables.textFromTheTerminalImput + " && pwd" , "/test") + "\n" + variables.pwd + ">"
+GuiControl("text", "Gui2terminalOutPut", variables.terminalOutPutTemp);
+}
+}
 }
 async function quickButton1(A_GuiControl)
 {

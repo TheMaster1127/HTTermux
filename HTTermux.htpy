@@ -6,3 +6,9 @@ endpoint, command, test
 data := RunCMD(command)
 return data
 }
+
+endpoint, fileName, open
+{
+FileRead, data, %fileName%
+return data
+}

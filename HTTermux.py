@@ -10,6 +10,21 @@ def app_route():
 # Define a dictionary to store dynamic variables
 variables = {}
 
+import os
+def FileRead(path):
+    # Remove any extra double quotes around the path
+    path = path.strip('"')
+    # Ensure the path is absolute
+    if not os.path.isabs(path):
+        path = os.path.join(os.getcwd(), path)
+    try:
+        with open(path, 'r', encoding='utf-8', errors='ignore') as file:
+            content = file.read()
+        return content
+    except FileNotFoundError:
+        return ''
+    except Exception as e:
+        return None
 import subprocess
 def RunCMD(command):
     try:
@@ -26,6 +41,11 @@ def RunCMD(command):
 def test():
     variables['command'] = request.get_json()
     variables['data'] = RunCMD(variables['command'])
+    return variables['data']
+@app.route('/open', methods=['POST'])
+def open():
+    variables['fileName'] = request.get_json()
+    variables['data'] = FileRead("" + variables['fileName'] + "")
     return variables['data']
 
 
