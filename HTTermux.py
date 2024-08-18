@@ -26,6 +26,19 @@ def Trim(inputString):
     if inputString is None:
         return ""
     return inputString.strip()
+def Chr(number):
+    # Check if the number is None
+    if number is None:
+        # Return an empty string
+        return ""
+    # Check if the number is within the valid Unicode range
+    if 0 <= number <= 0x10FFFF:
+        # Convert the number to a character using chr()
+        return chr(number)
+    else:
+        # Return an empty string for invalid numbers
+        return ""
+
 import os
 def FileRead(path):
     # Remove any extra double quotes around the path
@@ -68,7 +81,7 @@ def open():
         variables['A_LoopField1'] = A_LoopField1
         if (variables['A_Index1'] == 1):
             variables['fileName'] = Trim(variables['A_LoopField1'])
-    variables['data'] = FileRead(variables['fileName'])
+    variables['data'] = FileRead(Chr(34) + variables['fileName'] + Chr(34))
     print(variables['data'])
     variables['data'] = str(variables['data'])
     return variables['data']

@@ -17,7 +17,7 @@ if (A_Index = 1)
 fileName := Trim(A_LoopField)
 }
 }
-data := FileRead(fileName)
+data := FileRead(Chr(34) . fileName . Chr(34))
 MsgBox, % data
 data := str(data)
 return data
