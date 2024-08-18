@@ -11,7 +11,7 @@ Gui 2: Show, h%boardH% W%boardW%
 
 if (isMobileDevice())
 {
-Gui, Font, s13
+Gui, Font, s12
 }
 
 IDEh := boardH - 20 - 250
@@ -48,9 +48,10 @@ terminalOutPutY := IDEh + 20 + 50
 Gui 2: Add, Edit, x10 y%terminalOutPutY% h140 w%IDEw% bg121212 cffffff vterminalOutPut
 GuiControl 2: Disable, terminalOutPut
 terminalInputY := IDEh + 20 + 50 + 150
-terminalInputW := IDEw - 50
-Gui 2: Font, s18
-Gui 2: Add, Edit, x10 y%terminalInputY% h40 w%terminalInputW% bg121212 cffffff gterminalInputInput vterminalInput
+terminalInputW := IDEw - 50 - 40
+Gui 2: Font, s15
+Gui 2: Add, Button, x10 y%terminalInputY% h40 w40 gTabKey, Tab
+Gui 2: Add, Edit, x50 y%terminalInputY% h40 w%terminalInputW% bg121212 cffffff gterminalInputInput vterminalInput
 
 terminalSend := terminalInputW + 20
 Gui 2: Font, s12
@@ -59,6 +60,11 @@ saveButtonAllow := 0
 pwd := Trim(getDataFromEndpoint("pwd", "/command"))
 
 return
+
+TabKey:
+MsgBox, % textFromTheTerminalImput
+Return
+
 
 IDE1:
 ideText := A_GuiControl
