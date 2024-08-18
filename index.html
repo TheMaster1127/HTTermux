@@ -964,7 +964,8 @@ A_GuiControl = event.target.textContent
   terminalSend(A_GuiControl);
 };
 Gui2.appendChild(Gui2Button5);
-variables.pwd = await Trim (await getDataFromEndpoint ("pwd" , "/test") )
+variables.saveButtonAllow = 0
+variables.pwd = await Trim (await getDataFromEndpoint ("pwd" , "/command") )
 return
 async function IDE1(A_GuiControl)
 {
@@ -972,7 +973,11 @@ variables.ideText = A_GuiControl
 }
 async function saveButton(A_GuiControl)
 {
+if (( variables.saveButtonAllow == 1 ))
+{
 await showCustomMessageBox({}," ", variables.ideText, 0, 0.)
+await getDataFromEndpoint( variables.textFromTheTerminalImputDsplayPath + "\n" + variables.ideText , "/save" )
+}
 }
 async function terminalInputInput(A_GuiControl)
 {
@@ -994,10 +999,11 @@ variables.textFromTheTerminalImputDsplayPath = variables.pwd + "/" + await Trim 
 GuiControl("text", "Gui2terminalOutPut", variables.terminalOutPutTemp);
 GuiControl("text", "Gui2displayPath", variables.textFromTheTerminalImputDsplayPath);
 GuiControl("textide", "Gui2IDEtext", variables.terminalOutPutIDE);
+variables.saveButtonAllow = 1
 }
 else
 {
-variables.terminalOutPutTemp = await getDataFromEndpoint ("cd " + variables.pwd + " && " + variables.textFromTheTerminalImput + " && pwd" , "/test") + "\n" + variables.pwd + ">"
+variables.terminalOutPutTemp = await getDataFromEndpoint ("cd " + variables.pwd + " && " + variables.textFromTheTerminalImput + " && pwd" , "/command") + "\n" + variables.pwd + ">"
 GuiControl("text", "Gui2terminalOutPut", variables.terminalOutPutTemp);
 }
 }

@@ -1,24 +1,36 @@
 
 
-endpoint, command, test
+endpoint, command, command
 {
-
 data := RunCMD(command)
 return data
 }
 
 endpoint, fileName, open
 {
-MsgBox, % fileName
-Loop, Parse, fileName, `n, `r
+data := RunCMD("cat " . fileName)
+return data
+}
+
+
+endpoint, data, save
+{
+dataOut := ""
+Loop, Parse, data, `n, `r
 {
 if (A_Index = 1)
 {
-fileName := Trim(A_LoopField)
+fileName := A_LoopField
 }
+else
+{
+dataOut .= A_LoopField . "`n"
 }
-data := RunCMD("cat " . fileName)
-MsgBox, % data
-data := str(data)
-return data
+
+}
+
+StringTrimRight, dataOut, dataOut, 1
+RunCMD("rm " . fileName)
+FileAppend, dataOut, %fileName%
+return "done"
 }

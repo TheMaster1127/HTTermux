@@ -55,8 +55,8 @@ Gui 2: Add, Edit, x10 y%terminalInputY% h40 w%terminalInputW% bg121212 cffffff g
 terminalSend := terminalInputW + 20
 Gui 2: Font, s12
 Gui 2: Add, Button, x%terminalSend% y%terminalInputY% h45 w45 gterminalSend, Send
-
-pwd := Trim(getDataFromEndpoint("pwd", "/test"))
+saveButtonAllow := 0
+pwd := Trim(getDataFromEndpoint("pwd", "/command"))
 
 return
 
@@ -64,7 +64,11 @@ IDE1:
 ideText := A_GuiControl
 Return
 saveButton:
+if (saveButtonAllow = 1)
+{
 MsgBox, % ideText
+getDataFromEndpoint(textFromTheTerminalImputDsplayPath . "`n" . ideText, "/save")
+}
 Return
 
 
@@ -88,11 +92,11 @@ textFromTheTerminalImputDsplayPath := pwd . "/" . Trim(textFromTheTerminalImput)
 GuiControl 2: Text, terminalOutPut, %terminalOutPutTemp%
 GuiControl 2: Text, displayPath, %textFromTheTerminalImputDsplayPath%
 GuiControl 2: textide, IDEtext, %terminalOutPutIDE%
-
+saveButtonAllow := 1
 }
 else
 {
-terminalOutPutTemp := getDataFromEndpoint("cd " . pwd . " && " . textFromTheTerminalImput . " && pwd", "/test") . "`n" . pwd . ">"
+terminalOutPutTemp := getDataFromEndpoint("cd " . pwd . " && " . textFromTheTerminalImput . " && pwd", "/command") . "`n" . pwd . ">"
 GuiControl 2: Text, terminalOutPut, %terminalOutPutTemp%
 }
 
