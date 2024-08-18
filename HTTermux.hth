@@ -84,10 +84,10 @@ textFromTheTerminalImput := Trim(textFromTheTerminalImput)
 
 if (SubStr(textFromTheTerminalImput, 1, 4) = "htt ")
 {
-StringTrimLeft, textFromTheTerminalImput, textFromTheTerminalImput, 4
-terminalOutPutIDE := getDataFromEndpoint(pwd . "/" . Trim(textFromTheTerminalImput), "/open")
+StringTrimLeft, textFromTheTerminalImputOut, textFromTheTerminalImput, 4
+terminalOutPutIDE := getDataFromEndpoint(pwd . "/" . Trim(textFromTheTerminalImputOut), "/open")
 terminalOutPutTemp := "Done`n" . pwd . ">"
-textFromTheTerminalImputDsplayPath := pwd . "/" . Trim(textFromTheTerminalImput)
+textFromTheTerminalImputDsplayPath := pwd . "/" . Trim(textFromTheTerminalImputOut)
 GuiControl 2: Text, terminalOutPut, %terminalOutPutTemp%
 GuiControl 2: Text, displayPath, %textFromTheTerminalImputDsplayPath%
 GuiControl 2: textide, IDEtext, %terminalOutPutIDE%
