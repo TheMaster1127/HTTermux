@@ -669,6 +669,14 @@ var Gui2 = {}
 Gui2 = document.createElement("div")
 Gui2.id = "Gui2"
 
+var Gui1 = {}
+Gui1 = document.createElement("div")
+Gui1.id = "Gui1"
+
+var Gui2 = {}
+Gui2 = document.createElement("div")
+Gui2.id = "Gui2"
+
 
 
 
@@ -725,12 +733,25 @@ AddIDE(Gui2, 10, 50, variables.IDEw, variables.IDEhIDE, "Gui2IDEtext", 18, "auto
 if (( await isMobileDevice () ))
 {
 }
+variables.displayPathW = variables.boardW - 95
+Gui2displayPath = document.createElement("div");
+Gui2displayPath.id = "Gui2" + "displayPath"; // Set ID for referencing
+Gui2displayPath.textContent = "displayPath/displayPathW.somting";
+Gui2displayPath.style.color = "#black"
+Gui2displayPath.style.fontSize = "16px"; // Set font size
+Gui2displayPath.style.position = "absolute"; // Set position to absolute
+Gui2displayPath.style.left = "10px"; // Set initial x position
+Gui2displayPath.style.top = "10px"; // Set initial y position
+Gui2displayPath.style.width = "" + variables.displayPathW + "px"; // Set width
+Gui2displayPath.style.height = "35px"; // Set height
+Gui2.appendChild(Gui2displayPath);
+variables.saveButtonX = variables.boardW - 70
 Gui2Button1 = document.createElement("button");
 Gui2Button1.id = "Gui2" + "Button" + "1"; // Set ID for referencing
 Gui2Button1.textContent = "Save";
 Gui2Button1.style.fontSize = "15px"; // Set font size
 Gui2Button1.style.position = "absolute"; // Set position to absolute
-Gui2Button1.style.left = "10px"; // Set initial x position
+Gui2Button1.style.left = "" + variables.saveButtonX + "px"; // Set initial x position
 Gui2Button1.style.top = "10px"; // Set initial y position
 Gui2Button1.style.width = "60px"; // Set width
 Gui2Button1.style.height = "35px"; // Set height
@@ -746,18 +767,6 @@ A_GuiControl = event.target.textContent
   saveButton(A_GuiControl);
 };
 Gui2.appendChild(Gui2Button1);
-variables.displayPathW = variables.boardW - 105
-Gui2displayPath = document.createElement("div");
-Gui2displayPath.id = "Gui2" + "displayPath"; // Set ID for referencing
-Gui2displayPath.textContent = "displayPath/displayPathW.somting";
-Gui2displayPath.style.color = "#black"
-Gui2displayPath.style.fontSize = "15px"; // Set font size
-Gui2displayPath.style.position = "absolute"; // Set position to absolute
-Gui2displayPath.style.left = "80px"; // Set initial x position
-Gui2displayPath.style.top = "10px"; // Set initial y position
-Gui2displayPath.style.width = "" + variables.displayPathW + "px"; // Set width
-Gui2displayPath.style.height = "35px"; // Set height
-Gui2.appendChild(Gui2displayPath);
 variables.buttonAccess1X = 10
 variables.buttonAccess1Y = variables.IDEh + 20
 variables.buttonAccess2X = 130

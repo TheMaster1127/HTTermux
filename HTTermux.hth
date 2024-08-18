@@ -23,10 +23,14 @@ if (isMobileDevice())
 Gui, Font, s15
 }
 
-Gui 2: Add, Button, x10 y10 h35 w60 gsaveButton, Save
+Gui, Font, s16
+displayPathW := boardW - 95
+Gui 2: Add, Text, x10 y10 h35 w%displayPathW% vdisplayPath, displayPath/displayPathW.somting
+Gui, Font, s15
+saveButtonX := boardW - 70
+Gui 2: Add, Button, x%saveButtonX% y10 h35 w60 gsaveButton, Save
 
-displayPathW := boardW - 105
-Gui 2: Add, Text, x80 y10 h35 w%displayPathW% vdisplayPath, displayPath/displayPathW.somting
+
 
 buttonAccess1X := 10
 buttonAccess1Y := IDEh + 20
