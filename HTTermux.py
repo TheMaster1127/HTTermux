@@ -73,6 +73,7 @@ def open():
 @app.route('/save', methods=['POST'])
 def save():
     variables['data'] = request.get_json()
+    variables['data2'] = ""
     # Convert text to ASCII representation
     items = LoopParseFunc(variables['data'], "\n", "\r")
     for A_Index1, A_LoopField1 in enumerate(items, start=1):
@@ -80,9 +81,12 @@ def save():
         variables['A_LoopField1'] = A_LoopField1
         if (variables['A_Index1'] == 1):
             variables['fileName'] = variables['A_LoopField1']
+        else:
+            variables['data2'] += variables['A_LoopField1'] + "\n"
+    variables['data2'] = StringTrimRight(variables['data2'], 1)
     # Initialize variables
     variables['dataOut'] = ""
-    items = LoopParseFunc(variables['data'])
+    items = LoopParseFunc(variables['data2'])
     for A_Index2, A_LoopField2 in enumerate(items, start=1):
         variables['A_Index2'] = A_Index2
         variables['A_LoopField2'] = A_LoopField2

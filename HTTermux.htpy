@@ -16,6 +16,7 @@ return data
 endpoint, data, save
 {
 
+data2 := ""
 ; Convert text to ASCII representation
 Loop, Parse, data, `n, `r
 {
@@ -23,12 +24,16 @@ if (A_Index = 1)
 {
 fileName := A_LoopField
 }
+else
+{
+data2 .= A_LoopField . "`n"
 }
+}
+StringTrimRight, data2, data2, 1
+
 ; Initialize variables
 dataOut := ""
-
-
-Loop, Parse, data
+Loop, Parse, data2
 {
 asciiChar := Asc(A_LoopField)
 dataOut .= str(asciiChar) . "`n"
